@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    function signedInAsSelf(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    match /users/{uid} {
+      allow read: if signedInAsSelf(uid);
+
+      allow create: if signedInAsSelf(uid)
+        && request.resource.data.plan == 'free'
+        && request.resource.data.lifetimePhotoScansUsed == 0
+        && request.resource.data.streakCount == 0;
+
+      allow update: if signedInAsSelf(uid)
+        && request.resource.data.lifetimePhotoScansUsed
+           >= resource.data.lifetimePhotoScansUsed
+        && request.resource.data.lifetimePhotoScansUsed
+           <= (resource.data.plan == 'pro' ? 9999 : 3);
+
+      allow delete: if signedInAsSelf(uid);
+
+      match /currentScan/{doc} {
+        allow read, write, delete: if signedInAsSelf(uid);
+      }
+    }
+  }
+}

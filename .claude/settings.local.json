@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(npm view *)",
+      "Bash(npx create-expo-app *)",
+      "Read(//private/tmp/**)",
+      "Bash(npx create-expo-app@latest nutriguard-check --template blank-typescript --yes)",
+      "Read(//tmp/nutriguard-check/**)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(k,v\\) for k,v in {**d.get\\('dependencies',{}\\),**d.get\\('devDependencies',{}\\)}.items\\(\\)]\")",
+      "Bash(rm -rf /tmp/nutriguard-check)",
+      "Bash(npx expo *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(f'{k}: {v}'\\) for k,v in d['dependencies'].items\\(\\) if 'react-native' in k]\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('ESLint version:', d['version']\\)\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('reanimated version:', d['version']\\); print\\('babel plugin:', d.get\\('main',''\\)\\)\")",
+      "Bash(npx expo-doctor *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

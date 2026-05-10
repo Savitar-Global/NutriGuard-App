@@ -1,0 +1,23 @@
+node_modules/
+.expo/
+dist/
+.env
+*.local
+
+# iOS build artefacts
+ios/
+android/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Expo
+web-build/
+expo-env.d.ts
+
+# macOS
+.DS_Store
+*.swp

@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NutriGuard — iOS Screens</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:#E8E3D8;font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.page{width:680px;min-height:900px;margin:0 auto;padding:32px 40px 52px;display:flex;flex-direction:column;align-items:center;page-break-after:always;break-after:page}
+.pm{width:100%;display:flex;justify-content:space-between;margin-bottom:28px}
+.pn{font-size:9.5px;font-weight:700;letter-spacing:.16em;color:#7A6E64;text-transform:uppercase}
+.pc{font-size:9.5px;font-weight:600;letter-spacing:.13em;color:#A09590;text-transform:uppercase}
+.phone{width:294px;background:#181210;border-radius:48px;padding:13px;box-shadow:0 28px 64px rgba(0,0,0,.24)}
+.scr{background:#F5F1EA;border-radius:37px;overflow:hidden;position:relative}
+.sbar{display:flex;justify-content:space-between;align-items:center;padding:14px 20px 4px;position:relative}
+.sbar-dark{display:flex;justify-content:space-between;align-items:center;padding:14px 20px 4px;position:relative}
+.st{font-size:12px;font-weight:700;color:#2B2117;letter-spacing:-.3px}
+.st-w{font-size:12px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.di{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:84px;height:24px;background:#000;border-radius:18px}
+.si{display:flex;align-items:center;gap:5px}
+.sp{padding:0 18px 20px}
+.serif{font-family:Georgia,'Times New Roman',serif;color:#2B2117;line-height:1.13}
+.h1{font-size:26px}
+.h2{font-size:20px}
+.lbl{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#A09590}
+.body{font-size:12px;line-height:1.45;color:#6B5E52}
+.bodyxs{font-size:10.5px;line-height:1.4;color:#9B8E82}
+.fl{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#A09590;margin-top:11px;margin-bottom:4px}
+.field{background:#fff;border:1px solid #DDD5C8;border-radius:10px;padding:10px 12px;font-size:12px;color:#2B2117;display:flex;justify-content:space-between;align-items:center}
+.field-dark{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px 12px;font-size:12px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.btnp{background:#3A5239;color:#fff;border-radius:50px;padding:13px 16px;font-size:13px;font-weight:600;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px;cursor:default}
+.btns{background:#EDE8E0;color:#2B2117;border-radius:50px;padding:13px 16px;font-size:13px;font-weight:500;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
+.btno{background:transparent;border:1px solid #CEC7BC;color:#4B3F33;border-radius:50px;padding:11px 16px;font-size:12px;font-weight:500;text-align:center}
+.or{display:flex;align-items:center;gap:10px;margin:12px 0}
+.or::before,.or::after{content:'';flex:1;height:1px;background:#D8D0C6}
+.or span{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#A09590}
+.or-w{display:flex;align-items:center;gap:10px;margin:10px 0}
+.or-w::before,.or-w::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.25)}
+.or-w span{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;line-height:1;white-space:nowrap}
+.con{background:#3A5239;color:#fff}
+.coff{background:#fff;color:#3A5239;border:1px solid #D0C9C0}
+.cdash{background:transparent;color:#A09590;border:1.5px dashed #C0B9B0}
+.vallgood{background:#D4EDDA;color:#276132}
+.vmostly{background:#C8E6C9;color:#2E6B34}
+.veatless{background:#FFF9C4;color:#8B5E00}
+.vnotideal{background:#FFE0B2;color:#C64A00}
+.vskipit{background:#FFCDD2;color:#B71C1C}
+.card{background:#fff;border:1px solid #E2DBD0;border-radius:14px;padding:13px}
+.cardg{background:#3A5239;border-radius:14px;padding:14px;color:#fff}
+.cardau{background:#FDF3DC;border:1px solid #E8D9B0;border-radius:14px;padding:13px}
+.cardor{background:#FFF3E0;border:1px solid #F0D9A8;border-radius:14px;padding:13px}
+.cardcr{background:#FAF8F4;border:1px solid #E2DBD0;border-radius:14px;padding:13px}
+.sdiv{display:flex;align-items:center;gap:8px;margin:11px 0 8px}
+.sdiv::before,.sdiv::after{content:'';flex:1;height:1px;background:#D8D0C6}
+.sdiv span{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#A09590}
+.pbar{height:3px;background:#E2DBD0;border-radius:2px;margin-bottom:18px}
+.pfill{height:100%;background:#3A5239;border-radius:2px}
+.strk{display:inline-flex;align-items:center;gap:5px;background:#FFF3E0;border:1px solid #F0D5A0;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;color:#B84A00}
+.tbr{display:flex;justify-content:space-around;background:#fff;border-top:1px solid #E2DBD0;padding:9px 0 18px}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2.5px;font-size:9px;color:#A09590;font-weight:500;flex:1}
+.tabon{display:flex;flex-direction:column;align-items:center;gap:2.5px;font-size:9px;color:#3A5239;font-weight:700;flex:1}
+.bk{width:28px;height:28px;background:rgba(255,255,255,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:#4B3F33;border:1px solid #E2DBD0;flex-shrink:0}
+.disc{font-size:10px;color:#A09590;text-align:center;font-style:italic;line-height:1.4;margin-top:10px}
+@media print{.page{page-break-after:always}}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     01 · SIGN UP
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">01 · Sign up</span>
+    <span class="pc">Auth &amp; Onboarding</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:606px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:22px">
+          <div style="width:30px;height:30px;background:#3A5239;border-radius:8px;display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C6 2 4.5 4 5 6.5L3 11h10L11 6.5C11.5 4 10 2 8 2z" fill="#C9A870"/><ellipse cx="8" cy="13" rx="2" ry="1.5" fill="#C9A870"/></svg>
+          </div>
+          <span style="font-size:14px;font-weight:700;color:#2B2117">NutriGuard</span>
+        </div>
+        <div class="serif h1" style="margin-bottom:10px">Your food. Your<br>conditions.<br><em style="color:#6B5E52">Your answer.</em></div>
+        <p class="body" style="margin-bottom:18px">Scan any meal. Get an honest verdict tuned to the conditions you actually live with.</p>
+        <div class="fl">Email</div>
+        <div class="field">hema@example.com</div>
+        <div class="fl">Password</div>
+        <div class="field"><span style="letter-spacing:.12em;color:#9B8E82">••••••••••</span><svg width="15" height="12" viewBox="0 0 15 12" fill="none"><ellipse cx="7.5" cy="6" rx="7" ry="5.5" stroke="#A09590" stroke-width="1.2"/><circle cx="7.5" cy="6" r="2" fill="#A09590"/></svg></div>
+        <div style="display:flex;align-items:flex-start;gap:8px;margin-top:11px;margin-bottom:14px;background:#fff;border:1px solid #E2DBD0;border-radius:10px;padding:10px">
+          <div style="width:16px;height:16px;background:#3A5239;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px">
+            <svg width="9" height="7" viewBox="0 0 9 7"><path d="M1 3.5L3.5 6 8 1" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="body">I understand NutriGuard is <strong>not medical advice</strong>.</span>
+        </div>
+        <div class="btnp">Create account</div>
+        <div class="or"><span>or</span></div>
+        <div class="btns">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 0C3.1 0 0 3.1 0 7s3.1 7 7 7 7-3.1 7-7S10.9 0 7 0zm3.2 5.4h-2V4c0-.6.5-1.1 1.1-1.1h.9V1.2c-.3 0-1.1-.1-1.8-.1-1.8 0-3 1.1-3 3.1v1.2H3.3v1.8h2.1V12h2V7.2h1.7l.1-1.8z" fill="#2B2117"/></svg>
+          Continue with Apple
+        </div>
+        <p style="font-size:11px;color:#9B8E82;text-align:center;margin-top:14px">Already a member? <strong style="color:#2B2117">Log in</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     02 · LOG IN
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">02 · Log in</span>
+    <span class="pc">Auth &amp; Onboarding</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:570px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;cursor:default">
+          <div class="bk"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M7 1L3 5l4 4" stroke="#4B3F33" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:12px;color:#6B5E52">Back</span>
+        </div>
+        <div class="serif h1" style="margin-bottom:8px">Welcome back</div>
+        <p class="body" style="margin-bottom:20px">Log in to sync your conditions, scans, and streak.</p>
+        <div class="btnp">
+          <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 0C3.1 0 0 3.1 0 7s3.1 7 7 7 7-3.1 7-7S10.9 0 7 0z" fill="#fff"/><path d="M7 3c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm0 1.5c.7 0 1.2.3 1.6.8L8 6l-1 .6-1-.6-.6-.7C5.8 4.8 6.3 4.5 7 4.5zm0 5c-1 0-1.9-.5-2.5-1.2.4-.7 1.4-1.1 2.5-1.1s2.1.4 2.5 1.1C8.9 9 8 9.5 7 9.5z" fill="#3A5239"/></svg>
+          Continue with Apple
+        </div>
+        <div class="or-w" style="--bfr:#D8D0C6"><span>or with email</span></div>
+        <div class="fl">Email</div>
+        <div class="field">hema@example.com</div>
+        <div class="fl">Password</div>
+        <div class="field"><span style="letter-spacing:.12em;color:#9B8E82">••••••••••</span><svg width="15" height="12" viewBox="0 0 15 12" fill="none"><ellipse cx="7.5" cy="6" rx="7" ry="5.5" stroke="#A09590" stroke-width="1.2"/><circle cx="7.5" cy="6" r="2" fill="#A09590"/></svg></div>
+        <p style="font-size:11px;color:#3A5239;text-align:right;margin-top:8px;margin-bottom:16px">Forgot password?</p>
+        <div class="btns">Log in</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     03 · PICK CONDITIONS
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">03 · Pick conditions</span>
+    <span class="pc">Auth &amp; Onboarding</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:606px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:6px"><span style="font-size:10px;color:#A09590">2 / 3</span></div>
+        <div class="pbar"><div class="pfill" style="width:66%"></div></div>
+        <div class="serif h1" style="margin-bottom:8px">What are you<br>managing?</div>
+        <p class="body" style="margin-bottom:18px">Pick everything that applies. Every scan is checked against this list.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
+          <span class="chip con"><svg width="11" height="11" viewBox="0 0 11 11"><circle cx="5.5" cy="5.5" r="4.5" fill="#E87070"/><path d="M5.5 3v2.5l2 1" stroke="#fff" stroke-width="1" fill="none" stroke-linecap="round"/></svg> Diabetes <svg width="9" height="9" viewBox="0 0 9 9"><path d="M1 4.5L3.5 7 8 1.5" stroke="#C9A870" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg></span>
+          <span class="chip con"><svg width="11" height="11" viewBox="0 0 11 11"><circle cx="5.5" cy="5.5" r="4.5" fill="#E8703A"/></svg> Gastritis <svg width="9" height="9" viewBox="0 0 9 9"><path d="M1 4.5L3.5 7 8 1.5" stroke="#C9A870" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg></span>
+          <span class="chip coff">Hypertension</span>
+          <span class="chip coff">GERD / Acid reflux</span>
+          <span class="chip coff">High cholesterol</span>
+          <span class="chip coff">Gout</span>
+          <span class="chip coff">Celiac / Gluten-free</span>
+          <span class="chip coff">Lactose intolerance</span>
+        </div>
+        <div style="background:#fff;border:1.5px dashed #B8B0A6;border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:8px;margin-top:4px;margin-bottom:16px">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#A09590" stroke-width="1.3"/><path d="M8 5v6M5 8h6" stroke="#A09590" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span style="font-size:12px;color:#A09590;flex:1">e.g. Thyroid, IBS, PCOS…</span>
+          <div style="background:#3A5239;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;color:#fff;white-space:nowrap">+ Add</div>
+        </div>
+        <div class="btnp">Continue · 2 selected</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     04 · HOME
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">04 · Home</span>
+    <span class="pc">Home &amp; Scan Flow</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:588px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px">
+          <div>
+            <p style="font-size:11px;color:#9B8E82;margin-bottom:2px">Tuesday, May 6</p>
+            <p class="serif" style="font-size:22px;color:#2B2117">Hi, Kavindu</p>
+          </div>
+          <span class="strk">&#128293; 5 day streak</span>
+        </div>
+        <div class="cardg" style="margin-bottom:12px">
+          <p class="lbl" style="color:rgba(255,255,255,.55);margin-bottom:6px">Scan a meal</p>
+          <p class="serif" style="font-size:19px;color:#fff;margin-bottom:14px;line-height:1.2">Can you eat this?<br>Find out in 10 seconds.</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div style="background:rgba(255,255,255,.14);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px">
+                <div style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:17px">&#128247;</div>
+                <p style="font-size:12.5px;font-weight:700;color:#fff;margin:0">Take a Photo</p>
+                <p style="font-size:10px;color:rgba(255,255,255,.6);margin:0;line-height:1.35">Point at your plate — done in seconds</p>
+              </div>
+              <div style="background:rgba(255,255,255,.14);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px">
+                <div style="width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:17px">&#128444;</div>
+                <p style="font-size:12.5px;font-weight:700;color:#fff;margin:0">From Gallery</p>
+                <p style="font-size:10px;color:rgba(255,255,255,.6);margin:0;line-height:1.35">Already snapped it? Use that</p>
+              </div>
+            </div>
+            <div style="background:rgba(201,168,112,.22);border:1px solid rgba(201,168,112,.5);border-radius:12px;padding:12px;display:flex;align-items:center;gap:12px">
+              <div style="width:34px;height:34px;border-radius:9px;background:rgba(201,168,112,.28);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">&#9000;&#65039;</div>
+              <div style="flex:1">
+                <p style="font-size:12.5px;font-weight:700;color:#C9A870;margin:0 0 2px">Type It In</p>
+                <p style="font-size:10px;color:rgba(201,168,112,.75);margin:0">No camera? Just describe your meal · Always free</p>
+              </div>
+              <svg width="7" height="12" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="rgba(201,168,112,.6)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="display:flex;align-items:center;gap:10px">
+          <div style="width:40px;height:40px;border-radius:8px;background:#E8E3D8;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <span style="font-size:18px">&#127860;</span>
+          </div>
+          <div style="flex:1">
+            <p style="font-size:11px;color:#A09590;margin-bottom:2px">Last scan · 2h ago</p>
+            <p style="font-size:13px;font-weight:600;color:#2B2117">Rice &amp; chicken curry</p>
+          </div>
+          <span class="chip veatless">Eat Less</span>
+        </div>
+      </div>
+      <div class="tbr">
+        <div class="tabon">
+          <svg width="18" height="16" viewBox="0 0 18 16"><path d="M9 1L1 7v8h5v-5h6v5h5V7Z" stroke="#3A5239" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+          Home
+        </div>
+        <div class="tab">
+          <svg width="18" height="16" viewBox="0 0 18 16"><circle cx="9" cy="8" r="6" stroke="#A09590" stroke-width="1.5" fill="none"/><path d="M9 5v3l2.5 1.5" stroke="#A09590" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>
+          Last Scan
+        </div>
+        <div class="tab">
+          <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="5.5" r="3.5" stroke="#A09590" stroke-width="1.5" fill="none"/><path d="M1.5 15c0-3.6 2.9-6.5 6.5-6.5S14.5 11.4 14.5 15" stroke="#A09590" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          Profile
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     05 · CAMERA
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">05 · Camera</span>
+    <span class="pc">Home &amp; Scan Flow</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:606px;background:#0F0E0C">
+      <div class="sbar-dark" style="background:transparent">
+        <span class="st-w">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#fff"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#fff"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#fff"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#fff"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#fff"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#fff" opacity=".4"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#fff" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#fff"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#fff"/></svg>
+        </div>
+      </div>
+      <div style="position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;min-height:520px">
+        <svg width="210" height="170" viewBox="0 0 210 170" style="position:absolute;top:28px;left:50%;transform:translateX(-50%)">
+          <path d="M15 5 L5 5 L5 15" stroke="rgba(255,255,255,.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M195 5 L205 5 L205 15" stroke="rgba(255,255,255,.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M15 165 L5 165 L5 155" stroke="rgba(255,255,255,.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M195 165 L205 165 L205 155" stroke="rgba(255,255,255,.7)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div style="width:150px;height:150px;border-radius:50%;background:#2A2318;display:flex;align-items:center;justify-content:center;position:relative;margin-top:30px">
+          <ellipse cx="60" cy="80" rx="22" ry="16" fill="#C9A870" style="position:absolute" transform="translate(-15,-10)"/>
+          <ellipse cx="90" cy="60" rx="18" ry="18" fill="#B8522A" style="position:absolute" transform="translate(-10,5)"/>
+          <ellipse cx="70" cy="95" rx="28" ry="14" fill="#5A8A3A" style="position:absolute" transform="translate(-5,-10)"/>
+        </div>
+        <div style="position:absolute;bottom:50px;left:50%;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;border:3px solid rgba(255,255,255,.8);display:flex;align-items:center;justify-content:center">
+          <div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.9)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     06 · TYPE IT IN (NEW)
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">06 · Type it in</span>
+    <span class="pc">Home &amp; Scan Flow</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:570px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;cursor:default">
+          <div class="bk"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M7 1L3 5l4 4" stroke="#4B3F33" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <p class="lbl" style="margin-bottom:6px">Always free</p>
+        <div class="serif h1" style="margin-bottom:8px">What are<br>you eating?</div>
+        <p class="body" style="margin-bottom:18px">Type your meal and we'll check every item against your conditions — same result as a photo scan.</p>
+        <div style="background:#fff;border:1.5px solid #3A5239;border-radius:12px;padding:12px;min-height:110px;margin-bottom:12px">
+          <p style="font-size:12px;color:#A09590;line-height:1.5">Grilled chicken with mashed potato, steamed broccoli and a side of white rice...</p>
+        </div>
+        <div class="btnp" style="margin-bottom:16px">Check my meal &#8594;</div>
+        <p class="lbl" style="margin-bottom:8px">Try an example</p>
+        <div style="display:flex;flex-wrap:wrap;gap:7px">
+          <span style="background:#fff;border:1px solid #E2DBD0;border-radius:20px;padding:5px 10px;font-size:11px;color:#6B5E52">"Rice &amp; chicken curry"</span>
+          <span style="background:#fff;border:1px solid #E2DBD0;border-radius:20px;padding:5px 10px;font-size:11px;color:#6B5E52">"Idli with sambar"</span>
+          <span style="background:#fff;border:1px solid #E2DBD0;border-radius:20px;padding:5px 10px;font-size:11px;color:#6B5E52">"Oats with banana"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     07 · ANALYSING
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">07 · Analysing</span>
+    <span class="pc">Home &amp; Scan Flow</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:588px;background:#3A5239">
+      <div class="sbar-dark" style="background:transparent">
+        <span class="st-w">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#fff"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#fff"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#fff"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#fff"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#fff"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#fff" opacity=".4"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#fff" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#fff"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#fff"/></svg>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;padding:30px 18px 28px">
+        <div style="position:relative;margin-bottom:28px">
+          <svg width="90" height="90" viewBox="0 0 90 90">
+            <circle cx="45" cy="45" r="40" stroke="rgba(255,255,255,.15)" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+            <circle cx="45" cy="45" r="30" fill="#C9A870"/>
+            <path d="M45 28C39 28 34 33 34 39c0 4 3 7.5 7 9v4h8v-4c4-1.5 7-5 7-9 0-6-5-11-11-11z" fill="rgba(255,255,255,.9)"/>
+            <rect x="41" y="51" width="8" height="2.5" rx="1.2" fill="rgba(255,255,255,.9)"/>
+          </svg>
+        </div>
+        <p class="serif" style="font-size:26px;color:#fff;text-align:center;margin-bottom:8px;line-height:1.15">Checking<br>your meal…</p>
+        <p style="font-size:12px;color:rgba(255,255,255,.65);text-align:center;margin-bottom:40px;line-height:1.45">Identifying items and checking each one<br>against your conditions.</p>
+        <div style="width:100%;display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:20px;height:20px;border-radius:50%;background:#C9A870;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4L4 7 9 1" stroke="#3A5239" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span style="font-size:12px;color:rgba(255,255,255,.8)">Reading the photo</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:20px;height:20px;border-radius:50%;background:#C9A870;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4L4 7 9 1" stroke="#3A5239" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span style="font-size:12px;color:rgba(255,255,255,.8)">Identifying food items</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);flex-shrink:0;display:flex;align-items:center;justify-content:center"><span style="font-size:8px;color:#fff">•••</span></div>
+            <span style="font-size:12px;color:#fff;font-weight:600">Checking against your conditions</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);flex-shrink:0"></div>
+            <span style="font-size:12px;color:rgba(255,255,255,.4)">Writing your verdict</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     08 · MEAL RESULT
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">08 · Meal result</span>
+    <span class="pc">Scan Results</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:680px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div class="bk"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M7 1L3 5l4 4" stroke="#4B3F33" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:10px;color:#A09590;letter-spacing:.08em">2:14 PM · TODAY</span>
+          <div class="bk"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v7M3 5l3-4 3 4M1 9v1.5A.5.5 0 001.5 11h9a.5.5 0 00.5-.5V9" stroke="#4B3F33" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="serif h2" style="margin-bottom:4px">Here's what's<br>on your plate &#127860;</div>
+        <p class="bodyxs" style="margin-bottom:10px">5 items · checked against <strong style="color:#2B2117">diabetes &amp; gastritis</strong></p>
+        <div style="background:#3A5239;border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div>
+            <p style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:4px">Dish safety</p>
+            <p style="font-size:28px;font-weight:700;color:#C9A870;line-height:1;font-family:Georgia,serif">72%</p>
+          </div>
+          <p style="font-size:11px;color:rgba(255,255,255,.75);text-align:right;line-height:1.35">safe for your<br>conditions</p>
+        </div>
+        <div style="background:#E8E3D8;border-radius:10px;height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:10px">
+          <p style="font-size:10px;color:#A09590;letter-spacing:.1em;text-transform:uppercase">[meal photo]</p>
+        </div>
+        <div class="cardau" style="display:flex;align-items:flex-start;gap:9px;margin-bottom:10px">
+          <span style="font-size:15px">&#128161;</span>
+          <div>
+            <p style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8B6A2A;margin-bottom:3px">Meal insight</p>
+            <p class="body">The base of rice &amp; lentils is solid. The main risks are the fried garnish and spice level — skip or reduce those and this is a reasonable meal.</p>
+          </div>
+        </div>
+        <div class="sdiv"><span>Safe to enjoy</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:4px">
+          <span class="chip vallgood"><svg width="9" height="7" viewBox="0 0 9 7"><path d="M1 3.5L3.5 6 8 1" stroke="#276132" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Steamed rice</span>
+          <span class="chip vallgood"><svg width="9" height="7" viewBox="0 0 9 7"><path d="M1 3.5L3.5 6 8 1" stroke="#276132" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Cucumber</span>
+          <span class="chip vallgood"><svg width="9" height="7" viewBox="0 0 9 7"><path d="M1 3.5L3.5 6 8 1" stroke="#276132" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> Lentils</span>
+        </div>
+        <div class="sdiv"><span>Worth a closer look</span></div>
+        <div class="card" style="margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+            <div style="width:26px;height:26px;border-radius:50%;background:#FFE0B2;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:12px;font-weight:700;color:#C64A00">2</span></div>
+            <div>
+              <p style="font-size:13px;font-weight:600;color:#2B2117;margin-bottom:2px">Fried onion garnish</p>
+              <span class="chip vnotideal" style="font-size:10px;padding:3px 8px">Not Ideal</span>
+            </div>
+          </div>
+          <p class="body" style="margin-bottom:8px;padding-left:34px">Fried &amp; oily — known gastritis trigger.</p>
+          <div class="btno" style="padding:8px;font-size:11px">Eat anyway &#8594;</div>
+        </div>
+        <div class="card" style="margin-bottom:10px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+            <div style="width:26px;height:26px;border-radius:50%;background:#FFF9C4;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:12px;font-weight:700;color:#8B5E00">3</span></div>
+            <div>
+              <p style="font-size:13px;font-weight:600;color:#2B2117;margin-bottom:2px">Chicken curry</p>
+              <span class="chip veatless" style="font-size:10px;padding:3px 8px">Eat Less</span>
+            </div>
+          </div>
+          <p class="body" style="margin-bottom:8px;padding-left:34px">Spice level may aggravate gastritis.</p>
+          <div class="btno" style="padding:8px;font-size:11px">Eat anyway &#8594;</div>
+        </div>
+      </div>
+      <div class="tbr">
+        <div class="tab">
+          <svg width="18" height="16" viewBox="0 0 18 16"><path d="M9 1L1 7v8h5v-5h6v5h5V7Z" stroke="#A09590" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+          Home
+        </div>
+        <div class="tabon">
+          <svg width="18" height="16" viewBox="0 0 18 16"><circle cx="9" cy="8" r="6" stroke="#3A5239" stroke-width="1.5" fill="none"/><path d="M9 5v3l2.5 1.5" stroke="#3A5239" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>
+          Last Scan
+        </div>
+        <div class="tab">
+          <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="5.5" r="3.5" stroke="#A09590" stroke-width="1.5" fill="none"/><path d="M1.5 15c0-3.6 2.9-6.5 6.5-6.5S14.5 11.4 14.5 15" stroke="#A09590" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          Profile
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     09 · INGREDIENT LABEL RESULT
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">09 · Ingredient label result</span>
+    <span class="pc">Scan Results</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:666px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div class="bk"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M7 1L3 5l4 4" stroke="#4B3F33" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:10px;color:#A09590;letter-spacing:.08em">PACKAGED · TODAY</span>
+          <div style="width:28px"></div>
+        </div>
+        <div class="serif h2" style="margin-bottom:4px">Let's check<br>what's inside &#128269;</div>
+        <p class="bodyxs" style="margin-bottom:12px">Britannia Marie Gold biscuits · 12 ingredients read</p>
+        <div class="cardor" style="margin-bottom:12px">
+          <p class="lbl" style="margin-bottom:6px">Overall verdict</p>
+          <p class="serif" style="font-size:18px;color:#C64A00;margin-bottom:6px">Not Ideal for you</p>
+          <p class="body">High in refined sugar and palm oil — both push blood glucose hard. Two ingredients also irritate gastritis.</p>
+        </div>
+        <div class="sdiv"><span>Ingredient breakdown</span></div>
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0EAE0"><span class="body">Refined wheat flour (Maida)</span><span class="chip vnotideal" style="font-size:10px;padding:3px 8px">Not Ideal</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0EAE0"><span class="body">Sugar</span><span class="chip vskipit" style="font-size:10px;padding:3px 8px">Skip It</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0EAE0"><span class="body">Palm oil</span><span class="chip vskipit" style="font-size:10px;padding:3px 8px">Skip It</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0EAE0"><span class="body">Invert sugar syrup</span><span class="chip vnotideal" style="font-size:10px;padding:3px 8px">Not Ideal</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #F0EAE0"><span class="body">Salt (730mg / 100g)</span><span class="chip veatless" style="font-size:10px;padding:3px 8px">Eat Less</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0"><span class="body">Milk solids</span><span class="chip vmostly" style="font-size:10px;padding:3px 8px">Mostly Fine</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+          <div class="btno" style="text-align:center;padding:9px;font-size:11px">Show 6 more</div>
+          <div class="btnp" style="font-size:11px;padding:9px 10px;border-radius:10px">Eat anyway &#8594;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     10 · UNRECOGNISED
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">10 · Unrecognised</span>
+    <span class="pc">Scan Results</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:546px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="margin-bottom:16px"><div class="bk"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M7 1L3 5l4 4" stroke="#4B3F33" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 0 22px">
+          <div style="width:64px;height:64px;border-radius:50%;background:#F0EAE0;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:30px">&#129300;</div>
+          <div class="serif h1" style="margin-bottom:8px">Hmm, we couldn't<br>make that out</div>
+          <p class="body" style="margin-bottom:22px">The photo didn't have enough detail to identify food. Try moving closer or finding better light.</p>
+          <div class="cardcr" style="text-align:left;width:100%;margin-bottom:20px">
+            <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px">
+              <div style="width:18px;height:18px;border-radius:50%;background:#3A5239;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="9" height="7" viewBox="0 0 9 7"><path d="M1 3.5L3.5 6 8 1" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg></div>
+              <p class="body">Hold the camera 30–40cm above the plate</p>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px">
+              <div style="width:18px;height:18px;border-radius:50%;background:#3A5239;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="9" height="7" viewBox="0 0 9 7"><path d="M1 3.5L3.5 6 8 1" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg></div>
+              <p class="body">Avoid harsh shadows — daylight works best</p>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px">
+              <div style="width:18px;height:18px;border-radius:50%;background:#3A5239;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px"><svg width="9" height="7" viewBox="0 0 9 7"><path d="M1 3.5L3.5 6 8 1" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg></div>
+              <p class="body">For packages, fill the frame with the label</p>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%">
+            <div class="btno">Pick from gallery</div>
+            <div class="btnp">Try again</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     11 · DAMAGE CONTROL
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">11 · Damage control</span>
+    <span class="pc">Scan Results</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:588px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div class="bk"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M7 1L3 5l4 4" stroke="#4B3F33" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span style="font-size:10px;color:#A09590;letter-spacing:.1em;text-transform:uppercase">Item 1 of 2</span>
+          <span style="font-size:12px;font-weight:600;color:#3A5239">Next &#8594;</span>
+        </div>
+        <p class="lbl" style="margin-bottom:5px">Eat anyway?</p>
+        <div class="serif h1" style="margin-bottom:8px">Fried onion<br>garnish</div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+          <span class="chip vnotideal">Not Ideal</span>
+          <span class="bodyxs">2 / 5 for your conditions</span>
+        </div>
+        <div class="cardg" style="margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1L8.5 5.5H13L9.5 8.5l1.5 4.5L7 10.5 3 13l1.5-4.5L1 5.5h4.5Z" fill="#C9A870"/></svg>
+            <span style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.6)">Damage control</span>
+          </div>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.9);line-height:1.5;margin-bottom:8px">Follow this with chamomile or fresh ginger tea — both calm gastritis inflammation within about 30 minutes.</p>
+          <p style="font-size:12.5px;color:rgba(255,255,255,.9);line-height:1.5">Avoid lying down for at least an hour after eating — gravity helps your stomach process oily food.</p>
+        </div>
+        <div class="btno" style="text-align:center;margin-bottom:10px">&#8592; Back to results</div>
+        <p class="disc">Not medical advice. Always consult your healthcare provider before changing your diet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     12 · PROFILE
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">12 · Profile</span>
+    <span class="pc">Profile</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:636px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <p class="serif h2">Profile</p>
+          <span style="font-size:12px;color:#3A5239;font-weight:600">Edit</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <div style="width:44px;height:44px;border-radius:50%;background:#3A5239;display:flex;align-items:center;justify-content:center;flex-shrink:0"><span style="font-size:16px;font-weight:700;color:#C9A870">K</span></div>
+          <div>
+            <p style="font-size:14px;font-weight:600;color:#2B2117">Kavindu</p>
+            <p style="font-size:11px;color:#9B8E82">kavindudhana5@gmail.com</p>
+          </div>
+        </div>
+        <div class="cardau" style="margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <p style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8B6A2A;margin-bottom:4px">&#10024; Pro · Annual</p>
+              <p class="serif" style="font-size:16px;color:#6B4A10">Renews May 2027</p>
+              <p style="font-size:11px;color:#9B7A30;margin-top:3px">Unlimited scans</p>
+            </div>
+            <span style="background:#fff;border:1px solid #E8D9B0;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;color:#8B6A2A">Manage</span>
+          </div>
+        </div>
+        <div class="sdiv"><span>Body</span></div>
+        <div class="card" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;margin-bottom:10px">
+          <div><p style="font-size:9px;font-weight:600;color:#A09590;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px">Weight</p><p style="font-size:18px;font-weight:700;color:#2B2117;font-family:Georgia,serif">68<span style="font-size:12px;font-weight:400;color:#9B8E82"> kg</span></p></div>
+          <div><p style="font-size:9px;font-weight:600;color:#A09590;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px">Height</p><p style="font-size:18px;font-weight:700;color:#2B2117;font-family:Georgia,serif">174<span style="font-size:12px;font-weight:400;color:#9B8E82"> cm</span></p></div>
+          <div><p style="font-size:9px;font-weight:600;color:#A09590;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px">Age</p><p style="font-size:18px;font-weight:700;color:#2B2117;font-family:Georgia,serif">28<span style="font-size:12px;font-weight:400;color:#9B8E82"> yrs</span></p></div>
+        </div>
+        <div class="sdiv"><span>Conditions</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+          <span class="chip con">Diabetes &#215;</span>
+          <span class="chip con">Gastritis &#215;</span>
+        </div>
+        <div style="background:#F5F1EA;border:1.5px dashed #B8B0A6;border-radius:10px;padding:10px 13px;display:flex;align-items:center;gap:9px;cursor:default;margin-top:6px">
+          <div style="width:22px;height:22px;border-radius:50%;background:#3A5239;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 2v6M2 5h6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div style="flex:1">
+            <p style="font-size:12px;font-weight:600;color:#3A5239;margin:0">Add another condition</p>
+            <p style="font-size:10px;color:#A09590;margin:2px 0 0">Thyroid, IBS, PCOS and more…</p>
+          </div>
+          <svg width="7" height="12" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="#A09590" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <div class="sdiv"><span>Settings</span></div>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 13px;border-bottom:1px solid #F0EAE0"><span class="body">Notifications</span><svg width="8" height="12" viewBox="0 0 8 12"><path d="M1 1l5 5-5 5" stroke="#A09590" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 13px;border-bottom:1px solid #F0EAE0"><span class="body">Data &amp; privacy</span><svg width="8" height="12" viewBox="0 0 8 12"><path d="M1 1l5 5-5 5" stroke="#A09590" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 13px;border-bottom:1px solid #F0EAE0"><span class="body">Help centre</span><svg width="8" height="12" viewBox="0 0 8 12"><path d="M1 1l5 5-5 5" stroke="#A09590" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+          <div style="padding:11px 13px"><span style="font-size:12px;color:#C64A00;font-weight:500">Sign out</span></div>
+        </div>
+      </div>
+      <div class="tbr">
+        <div class="tab">
+          <svg width="18" height="16" viewBox="0 0 18 16"><path d="M9 1L1 7v8h5v-5h6v5h5V7Z" stroke="#A09590" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+          Home
+        </div>
+        <div class="tab">
+          <svg width="18" height="16" viewBox="0 0 18 16"><circle cx="9" cy="8" r="6" stroke="#A09590" stroke-width="1.5" fill="none"/><path d="M9 5v3l2.5 1.5" stroke="#A09590" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>
+          Last Scan
+        </div>
+        <div class="tabon">
+          <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="5.5" r="3.5" stroke="#3A5239" stroke-width="1.5" fill="none"/><path d="M1.5 15c0-3.6 2.9-6.5 6.5-6.5S14.5 11.4 14.5 15" stroke="#3A5239" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          Profile
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     13 · PAYWALL
+     ══════════════════════════════════════ -->
+<div class="page">
+  <div class="pm">
+    <span class="pn">13 · Paywall</span>
+    <span class="pc">Extras</span>
+  </div>
+  <div class="phone">
+    <div class="scr" style="min-height:636px">
+      <div class="sbar">
+        <span class="st">9:41</span>
+        <div class="di"></div>
+        <div class="si">
+          <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="2.5" height="4" rx=".7" fill="#2B2117"/><rect x="3.5" y="4" width="2.5" height="6" rx=".7" fill="#2B2117"/><rect x="7" y="2" width="2.5" height="8" rx=".7" fill="#2B2117"/><rect x="10.5" y="0" width="2.5" height="10" rx=".7" fill="#2B2117"/></svg>
+          <svg width="14" height="10" viewBox="0 0 14 10"><path d="M7 9.5L3.5 6C4.4 5 5.6 4.4 7 4.4S9.6 5 10.5 6Z" fill="#2B2117"/><path d="M7 9.5L1 3.5C2.5 2 4.6 1 7 1S11.5 2 13 3.5Z" fill="#2B2117" opacity=".35"/></svg>
+          <svg width="22" height="10" viewBox="0 0 22 10"><rect x=".5" y=".5" width="18" height="9" rx="2.5" stroke="#2B2117" stroke-width="1.2" fill="none"/><rect x="19" y="3.5" width="2.5" height="3" rx="1.2" fill="#2B2117"/><rect x="2" y="2" width="14" height="6" rx="1.5" fill="#2B2117"/></svg>
+        </div>
+      </div>
+      <div class="sp">
+        <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+          <div class="bk" style="font-size:15px;background:#EDE8E0">&#215;</div>
+        </div>
+        <div style="text-align:center;margin-bottom:18px">
+          <div style="font-size:28px;margin-bottom:10px">&#10024;</div>
+          <div class="serif h1" style="margin-bottom:8px">Unlock unlimited<br>scans</div>
+          <p class="body">You've used your 3 lifetime photo scans. Go Pro and never wonder if a meal is safe.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:18px">
+          <div class="card" style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:32px;height:32px;border-radius:8px;background:#E8E3D8;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">&#128247;</div>
+            <div>
+              <p style="font-size:13px;font-weight:600;color:#2B2117;margin-bottom:2px">Unlimited meal &amp; label scans</p>
+              <p class="bodyxs">Every meal, every day. No 3-scan ceiling.</p>
+            </div>
+          </div>
+          <div class="card" style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:32px;height:32px;border-radius:8px;background:#FDF3DC;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">&#9000;&#65039;</div>
+            <div>
+              <p style="font-size:13px;font-weight:600;color:#2B2117;margin-bottom:2px">Type It In is always free</p>
+              <p class="bodyxs">No limits on text scans — for everyone, forever.</p>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+          <div class="card" style="text-align:center;padding:14px">
+            <p style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#9B8E82;margin-bottom:6px">Monthly</p>
+            <p style="font-size:22px;font-weight:700;color:#2B2117;font-family:Georgia,serif">$9.99</p>
+            <p class="bodyxs">per month</p>
+          </div>
+          <div style="background:#3A5239;border-radius:14px;padding:14px;text-align:center;position:relative">
+            <span style="position:absolute;top:-8px;right:10px;background:#C9A870;border-radius:20px;padding:3px 8px;font-size:9px;font-weight:700;color:#3A2A10;letter-spacing:.08em">SAVE 58%</span>
+            <p style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px">Annual</p>
+            <p style="font-size:22px;font-weight:700;color:#C9A870;font-family:Georgia,serif">$49.99</p>
+            <p style="font-size:10.5px;color:rgba(255,255,255,.65)">$4.17 / month</p>
+          </div>
+        </div>
+        <div class="btnp" style="margin-bottom:8px">Start with Annual · $49.99</div>
+        <p class="disc">Cancel anytime · auto-renews</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
