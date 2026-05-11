@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { LEGAL_URLS } from '@/config/constants';
+import { LEGAL_URLS, PRODUCT_IDS } from '@/config/constants';
 import type { RcPackage } from '@/data/services/revenuecat';
 import { Icon } from '@/presentation/components/Icon';
 import type { RootStackParamList } from '@/presentation/navigation/RootNavigator';
@@ -49,8 +49,31 @@ export function PaywallScreen() {
   const error = useEntitlementStore((s) => s.error);
   const clearError = useEntitlementStore((s) => s.clearError);
   const isPro = useEntitlementStore((s) => s.isPro);
+  const entitlement = useEntitlementStore((s) => s.entitlement);
 
-  const [selected, setSelected] = useState<PackageType>('annual');
+  // Plan currently owned by the user, if any. Derived once per render from
+  // the entitlement's product identifier so the picker can mark it.
+  const currentPlan: PackageType | null = useMemo(() => {
+    if (entitlement.productIdentifier === PRODUCT_IDS.annual) return 'annual';
+    if (entitlement.productIdentifier === PRODUCT_IDS.monthly) return 'monthly';
+    return null;
+  }, [entitlement.productIdentifier]);
+
+  // Snapshot of whether the user was Pro at mount time. Used to:
+  //   1. Skip the new-purchase auto-dismiss effect (isPro stays true throughout
+  //      a change-plan flow, so we need an explicit dismiss after `purchase`).
+  //   2. Switch CTA copy from "Start with" → "Switch to" and disable the
+  //      current plan tile in the picker.
+  const wasInitiallyProRef = useRef(isPro && currentPlan !== null);
+  const isChangePlanMode = wasInitiallyProRef.current;
+
+  // In change-plan mode, default-select the plan the user is NOT on.
+  // Otherwise default to Annual (matches the highlighted tile in the mock).
+  const [selected, setSelected] = useState<PackageType>(() => {
+    if (isChangePlanMode && currentPlan === 'annual') return 'monthly';
+    if (isChangePlanMode && currentPlan === 'monthly') return 'annual';
+    return 'annual';
+  });
 
   useEffect(() => {
     if (!offering && !isLoadingOffering) {
@@ -58,9 +81,13 @@ export function PaywallScreen() {
     }
   }, [offering, isLoadingOffering, refreshOffering]);
 
-  // Auto-dismiss once entitlement flips to active (purchase or restore).
+  // Auto-dismiss when the user becomes Pro during this screen's lifetime
+  // (a fresh purchase). Skipped in change-plan mode, where `isPro` stays
+  // true the whole time — that path dismisses explicitly in `onSubscribe`.
   useEffect(() => {
-    if (isPro) navigation.goBack();
+    if (isPro && !wasInitiallyProRef.current) {
+      navigation.goBack();
+    }
   }, [isPro, navigation]);
 
   useEffect(() => {
@@ -84,7 +111,12 @@ export function PaywallScreen() {
 
   const onSubscribe = async () => {
     if (!selectedPkg) return;
-    await purchase(selectedPkg);
+    const ok = await purchase(selectedPkg);
+    if (ok && isChangePlanMode) {
+      // isPro didn't transition, so the auto-dismiss effect won't fire —
+      // dismiss explicitly so the user lands back on the Manage screen.
+      navigation.goBack();
+    }
   };
 
   const onRestore = async () => {
@@ -97,9 +129,10 @@ export function PaywallScreen() {
     }
   };
 
+  const verb = isChangePlanMode ? 'Switch to' : 'Start with';
   const ctaLabel = selected === 'annual'
-    ? `Start with Annual${annual ? ` · ${annual.product.priceString}` : ''}`
-    : `Start with Monthly${monthly ? ` · ${monthly.product.priceString}` : ''}`;
+    ? `${verb} Annual${annual ? ` · ${annual.product.priceString}` : ''}`
+    : `${verb} Monthly${monthly ? ` · ${monthly.product.priceString}` : ''}`;
 
   return (
     <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
@@ -169,6 +202,7 @@ export function PaywallScreen() {
             <PlanTile
               kind="monthly"
               selected={selected === 'monthly'}
+              isCurrent={currentPlan === 'monthly'}
               priceLabel={monthly?.product.priceString ?? '—'}
               perLabel="per month"
               onPress={() => setSelected('monthly')}
@@ -176,6 +210,7 @@ export function PaywallScreen() {
             <PlanTile
               kind="annual"
               selected={selected === 'annual'}
+              isCurrent={currentPlan === 'annual'}
               priceLabel={annual?.product.priceString ?? '—'}
               perLabel={annualPerMonthLabel(annual)}
               savingsPct={savings}
@@ -275,6 +310,7 @@ function FeatureRow({ iconName, iconBg, iconColor, title, subtitle }: FeatureRow
 interface PlanTileProps {
   kind: 'monthly' | 'annual';
   selected: boolean;
+  isCurrent?: boolean;
   priceLabel: string;
   perLabel: string;
   savingsPct?: number | null;
@@ -284,6 +320,7 @@ interface PlanTileProps {
 function PlanTile({
   kind,
   selected,
+  isCurrent = false,
   priceLabel,
   perLabel,
   savingsPct,
@@ -291,20 +328,32 @@ function PlanTile({
 }: PlanTileProps) {
   const isAnnual = kind === 'annual';
 
+  // Current plan tile: not tappable, "CURRENT" badge replaces the SAVE badge.
+  const showCurrentBadge = isCurrent;
+  const showSavingsBadge =
+    !isCurrent && isAnnual && savingsPct != null && savingsPct > 0;
+
   return (
     <Pressable
       onPress={onPress}
+      disabled={isCurrent}
       style={({ pressed }) => [
         styles.planTile,
         isAnnual ? styles.planTileAnnual : styles.planTileMonthly,
         selected && (isAnnual ? styles.planTileAnnualSelected : styles.planTileMonthlySelected),
-        pressed && { opacity: opacity.pressed },
+        isCurrent && styles.planTileCurrent,
+        pressed && !isCurrent && { opacity: opacity.pressed },
       ]}
       accessibilityRole="radio"
-      accessibilityState={{ selected }}
-      accessibilityLabel={`${isAnnual ? 'Annual' : 'Monthly'} plan, ${priceLabel}`}
+      accessibilityState={{ selected, disabled: isCurrent }}
+      accessibilityLabel={`${isAnnual ? 'Annual' : 'Monthly'} plan, ${priceLabel}${isCurrent ? ', current plan' : ''}`}
     >
-      {isAnnual && savingsPct && savingsPct > 0 ? (
+      {showCurrentBadge ? (
+        <View style={[styles.savingsBadge, styles.currentBadge]}>
+          <Text style={[styles.savingsText, styles.currentBadgeText]}>CURRENT</Text>
+        </View>
+      ) : null}
+      {showSavingsBadge ? (
         <View style={styles.savingsBadge}>
           <Text style={styles.savingsText}>SAVE {savingsPct}%</Text>
         </View>
@@ -491,6 +540,15 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: colors.ink,
     letterSpacing: 0.6,
+  },
+  currentBadge: {
+    backgroundColor: colors.verdict.allGood.bg,
+  },
+  currentBadgeText: {
+    color: colors.verdict.allGood.fg,
+  },
+  planTileCurrent: {
+    opacity: opacity.pressedSoft,
   },
   planLabel: {
     fontSize: 10,
