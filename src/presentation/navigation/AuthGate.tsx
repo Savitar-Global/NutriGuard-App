@@ -6,6 +6,7 @@ import { MainTabs } from '@/presentation/navigation/MainTabs';
 import { OnboardingFlowStack } from '@/presentation/navigation/OnboardingFlowStack';
 import { colors } from '@/presentation/theme';
 import { useAuthStore } from '@/stores/authStore';
+import { useDemoScanStore } from '@/stores/demoScanStore';
 import { useEntitlementStore } from '@/stores/entitlementStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useScanStore } from '@/stores/scanStore';
@@ -84,6 +85,7 @@ export function AuthGate() {
         if (cancelled) return;
         if (fresh) useUserStore.setState({ profile: fresh });
         useOnboardingStore.getState().reset();
+        useDemoScanStore.getState().reset();
       } catch (err) {
         // Leave the onboarding store intact so the next app open can retry.
         console.error('[AuthGate] failed to commit onboarding profile', err);

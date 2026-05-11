@@ -11,11 +11,13 @@ import Svg, { Circle, Path } from 'react-native-svg';
 
 import { useOnboardingNav } from '@/presentation/hooks/useOnboardingNav';
 import { colors, spacing, typography } from '@/presentation/theme';
+import { useDemoScanStore } from '@/stores/demoScanStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { conditionsSentence } from '@/utils/onboarding';
 
 const STEP_DURATION_MS = 900;
 const FINAL_HOLD_MS = 600;
+const MIN_VISIBLE_MS = STEP_DURATION_MS * 4 + FINAL_HOLD_MS;
 
 const BASE_STEPS = [
   'Reading the meal',
@@ -28,28 +30,39 @@ export function DemoAnalysingScreen() {
   const { goNext } = useOnboardingNav();
   const conditions = useOnboardingStore((s) => s.answers.conditions);
   const customs = useOnboardingStore((s) => s.answers.customConditions);
+  const scanStatus = useDemoScanStore((s) => s.status);
 
   const steps = [...BASE_STEPS];
   steps[2] = `Checking against ${conditionsSentence(conditions, customs)}`;
 
   const [activeStep, setActiveStep] = useState(0);
+  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveStep((s) => Math.min(s + 1, steps.length));
+      // Hold on the last step while we wait for the AI to finish.
+      setActiveStep((s) => Math.min(s + 1, steps.length - 1));
     }, STEP_DURATION_MS);
 
-    const finishTimer = setTimeout(
-      () => goNext(),
-      STEP_DURATION_MS * steps.length + FINAL_HOLD_MS,
-    );
+    const minTimer = setTimeout(() => setMinTimeElapsed(true), MIN_VISIBLE_MS);
 
     return () => {
       clearInterval(interval);
-      clearTimeout(finishTimer);
+      clearTimeout(minTimer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const isDone = scanStatus === 'done' || scanStatus === 'failed';
+    if (isDone && minTimeElapsed) {
+      // Tick the final step "done" before advancing.
+      setActiveStep(steps.length);
+      const t = setTimeout(() => goNext(), FINAL_HOLD_MS);
+      return () => clearTimeout(t);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scanStatus, minTimeElapsed]);
 
   return (
     <View style={styles.root}>

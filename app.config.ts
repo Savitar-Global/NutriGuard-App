@@ -31,6 +31,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ['expo-image-picker', { photosPermission: 'Choose a meal photo from your library to scan.' }],
     'expo-notifications',
     'expo-apple-authentication',
+    'expo-asset',
   ],
   extra: {
     openaiApiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY ?? '',
