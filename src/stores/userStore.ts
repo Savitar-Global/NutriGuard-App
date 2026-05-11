@@ -26,6 +26,7 @@ interface UserState {
   ensure: (input: SeedUserInput) => Promise<void>;
   saveConditions: (uid: string, patch: ConditionsPatch) => Promise<void>;
   updateProfile: (uid: string, patch: ProfilePatch) => Promise<void>;
+  incrementPhotoScans: (uid: string) => Promise<void>;
   reset: () => void;
   clearError: () => void;
 }
@@ -102,12 +103,44 @@ export const useUserStore = create<UserState>()(
         }
       },
 
+      incrementPhotoScans: async (uid) => {
+        const current = get().profile;
+        if (!current || current.uid !== uid) return;
+
+        const nextCount = (current.lifetimePhotoScansUsed ?? 0) + 1;
+        // Optimistic local update so PlanCard reflects the new count immediately.
+        set({
+          profile: {
+            ...current,
+            lifetimePhotoScansUsed: nextCount,
+            updatedAt: new Date(),
+          },
+        });
+
+        try {
+          await firestoreUserRepository.update(uid, {
+            lifetimePhotoScansUsed: nextCount,
+          });
+        } catch (err) {
+          console.error('[userStore] failed to persist scan count', err);
+          // Firestore rejected the write (e.g. quota rule). Re-fetch the
+          // server doc so local state matches cloud truth and the gate
+          // reflects what the backend actually allows.
+          try {
+            const fresh = await firestoreUserRepository.get(uid);
+            if (fresh) set({ profile: fresh });
+          } catch (refetchErr) {
+            console.error('[userStore] failed to refetch user doc', refetchErr);
+          }
+        }
+      },
+
       reset: () => set({ profile: null, error: null, isLoading: false, isSaving: false }),
 
       clearError: () => set({ error: null }),
     }),
     {
-      name: 'nutriguard-user',
+      name: 'nutricareai-user',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({ profile: state.profile }),
     },

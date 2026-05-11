@@ -13,6 +13,7 @@ interface ScanLaunchCardProps {
   onTakePhoto: () => void;
   onPickFromGallery: () => void;
   onTypeItIn: () => void;
+  isPhotoLocked?: boolean;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -20,6 +21,7 @@ export function ScanLaunchCard({
   onTakePhoto,
   onPickFromGallery,
   onTypeItIn,
+  isPhotoLocked = false,
   style,
 }: ScanLaunchCardProps) {
   return (
@@ -36,12 +38,14 @@ export function ScanLaunchCard({
           icon="camera"
           title="Take a Photo"
           description="Point at your plate — done in seconds"
+          locked={isPhotoLocked}
           onPress={onTakePhoto}
         />
         <ScanActionRow
           icon="gallery"
           title="From Gallery"
           description="Already snapped it? Use that"
+          locked={isPhotoLocked}
           onPress={onPickFromGallery}
         />
         <ScanActionRow

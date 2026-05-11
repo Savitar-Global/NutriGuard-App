@@ -117,7 +117,7 @@ function PermissionGate({ onClose, onRequest, canAsk }: PermissionGateProps) {
         <View style={styles.permissionContent}>
           <Text style={styles.permissionTitle}>Camera access</Text>
           <Text style={styles.permissionText}>
-            NutriGuard needs your camera to scan meals and food labels.
+            Nutricare Ai needs your camera to scan meals and food labels.
           </Text>
           <PrimaryButton
             label={canAsk ? 'Allow camera access' : 'Open Settings'}

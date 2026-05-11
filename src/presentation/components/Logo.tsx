@@ -12,7 +12,7 @@ export function Logo({ showWordmark = true }: LogoProps) {
       <View style={styles.box}>
         <Text style={styles.glyph}>🌿</Text>
       </View>
-      {showWordmark && <Text style={styles.wordmark}>NutriGuard</Text>}
+      {showWordmark && <Text style={styles.wordmark}>Nutricare Ai</Text>}
     </View>
   );
 }

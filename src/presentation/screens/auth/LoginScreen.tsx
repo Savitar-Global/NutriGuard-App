@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { isAppleSignInAvailable } from '@/data/services/appleAuth';
+import { isAppleSignInAvailable, isExpoGo } from '@/data/services/appleAuth';
 import { AppleAuthButton } from '@/presentation/components/AppleAuthButton';
 import { BackButton } from '@/presentation/components/BackButton';
 import { Divider } from '@/presentation/components/Divider';
@@ -88,6 +88,13 @@ export function LoginScreen({ onBack }: LoginScreenProps) {
   };
 
   const onApple = async () => {
+    if (isExpoGo()) {
+      Alert.alert(
+        'Not available in Expo Go',
+        'Apple Sign In needs a native dev client or TestFlight build to run. The button is shown here for layout only.',
+      );
+      return;
+    }
     try {
       await signInWithApple();
     } catch {
@@ -120,18 +127,6 @@ export function LoginScreen({ onBack }: LoginScreenProps) {
               Log in to sync your conditions, scans, and streak.
             </Text>
           </View>
-
-          {appleAvailable && (
-            <>
-              <AppleAuthButton
-                label="Continue with Apple"
-                onPress={onApple}
-                disabled={isSubmitting}
-                variant="dark"
-              />
-              <Divider label="or with email" />
-            </>
-          )}
 
           <TextField
             label="Email"
@@ -182,6 +177,18 @@ export function LoginScreen({ onBack }: LoginScreenProps) {
               loading={isSubmitting}
               disabled={!canSubmit}
             />
+
+            {appleAvailable && (
+              <>
+                <Divider label="or" />
+                <AppleAuthButton
+                  label="Continue with Apple"
+                  onPress={onApple}
+                  disabled={isSubmitting}
+                  variant="dark"
+                />
+              </>
+            )}
 
             <Text style={styles.footer}>
               Don't have an account?{' '}

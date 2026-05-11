@@ -11,7 +11,15 @@
         "simulator": true
       },
       "env": {
-        "APP_ENV": "development"
+        "APP_ENV": "development",
+        "EXPO_PUBLIC_OPENAI_API_KEY": "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",
+        "EXPO_PUBLIC_REVENUECAT_IOS_KEY": "YOUR_REVENUECAT_IOS_KEY",
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyBGQoIVfkjX_yNV753GLviY4pcjIv69uQo",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "nutriguard-a6e32.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "nutriguard-a6e32",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "nutriguard-a6e32.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "625533942170",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:625533942170:ios:e5d9e7f278f2e0b379a223"
       }
     },
     "preview": {
@@ -20,13 +28,29 @@
         "simulator": false
       },
       "env": {
-        "APP_ENV": "preview"
+        "APP_ENV": "preview",
+        "EXPO_PUBLIC_OPENAI_API_KEY": "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",
+        "EXPO_PUBLIC_REVENUECAT_IOS_KEY": "YOUR_REVENUECAT_IOS_KEY",
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyBGQoIVfkjX_yNV753GLviY4pcjIv69uQo",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "nutriguard-a6e32.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "nutriguard-a6e32",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "nutriguard-a6e32.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "625533942170",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:625533942170:ios:e5d9e7f278f2e0b379a223"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "APP_ENV": "production"
+        "APP_ENV": "production",
+        "EXPO_PUBLIC_OPENAI_API_KEY": "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",
+        "EXPO_PUBLIC_REVENUECAT_IOS_KEY": "YOUR_REVENUECAT_IOS_KEY",
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyBGQoIVfkjX_yNV753GLviY4pcjIv69uQo",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "nutriguard-a6e32.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "nutriguard-a6e32",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "nutriguard-a6e32.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "625533942170",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:625533942170:ios:e5d9e7f278f2e0b379a223"
       }
     }
   },

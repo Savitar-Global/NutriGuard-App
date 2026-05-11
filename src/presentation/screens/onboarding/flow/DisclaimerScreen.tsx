@@ -10,7 +10,7 @@ import { colors, radius, spacing, typography } from '@/presentation/theme';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 
 const DISCLAIMER_BODY =
-  'NutriGuard gives general wellness info based on widely accepted dietary guidelines. This isn’t medical advice — always check with your doctor before changing what you eat.';
+  'Nutricare Ai gives general wellness info based on widely accepted dietary guidelines. This isn’t medical advice — always check with your doctor before changing what you eat.';
 
 export function DisclaimerScreen() {
   const { step, totalSteps, goNext, goBack, canGoBack } = useOnboardingNav();
@@ -50,7 +50,7 @@ export function DisclaimerScreen() {
 
         <Checkbox checked={acknowledged} onChange={setAcknowledged}>
           <Text style={styles.checkboxText}>
-            I understand NutriGuard is{' '}
+            I understand Nutricare Ai is{' '}
             <Text style={styles.checkboxBold}>not medical advice</Text>.
           </Text>
         </Checkbox>

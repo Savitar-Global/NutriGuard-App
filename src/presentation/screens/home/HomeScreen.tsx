@@ -15,10 +15,12 @@ interface HomeScreenProps {
   onPickFromGallery: () => void;
   onTypeItIn: () => void;
   onLastScanTap: () => void;
+  isPhotoLocked?: boolean;
   onTestPickConditions?: () => void;
   onTestAnalysing?: () => void;
   onTestUnrecognised?: () => void;
   onTestOnboarding?: () => void;
+  onTestPaywall?: () => void;
 }
 
 const lastScanIcon = (scanType: string | undefined): IconName => {
@@ -43,10 +45,12 @@ export function HomeScreen({
   onPickFromGallery,
   onTypeItIn,
   onLastScanTap,
+  isPhotoLocked = false,
   onTestPickConditions,
   onTestAnalysing,
   onTestUnrecognised,
   onTestOnboarding,
+  onTestPaywall,
 }: HomeScreenProps) {
   const profile = useUserStore((s) => s.profile);
   const scan = useScanStore((s) => s.current);
@@ -70,6 +74,7 @@ export function HomeScreen({
           onTakePhoto={onTakePhoto}
           onPickFromGallery={onPickFromGallery}
           onTypeItIn={onTypeItIn}
+          isPhotoLocked={isPhotoLocked}
         />
 
         {onTestPickConditions ? (
@@ -93,6 +98,12 @@ export function HomeScreen({
         {onTestOnboarding ? (
           <Pressable onPress={onTestOnboarding} style={styles.testBtn}>
             <Text style={styles.testBtnLabel}>🪄 TEST: Onboarding flow</Text>
+          </Pressable>
+        ) : null}
+
+        {onTestPaywall ? (
+          <Pressable onPress={onTestPaywall} style={styles.testBtn}>
+            <Text style={styles.testBtnLabel}>💳 TEST: Paywall</Text>
           </Pressable>
         ) : null}
 

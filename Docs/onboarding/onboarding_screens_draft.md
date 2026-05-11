@@ -1,8 +1,8 @@
-# NutriGuard — Onboarding Flow (Content Draft v1)
+# Nutricare Ai — Onboarding Flow (Content Draft v1)
 
 > **Status:** Content draft for approval. No UI built yet.
 > **Inspired by:** Mau Baron / Prayer Lock 30-screen onboarding (`onboarding_guidline.pdf` + video transcript).
-> **Tailored for:** NutriGuard target user — adults 25–65 managing one or more chronic conditions (diabetes, gastritis, hypertension, GERD, high cholesterol, gout, celiac, lactose intolerance).
+> **Tailored for:** Nutricare Ai target user — adults 25–65 managing one or more chronic conditions (diabetes, gastritis, hypertension, GERD, high cholesterol, gout, celiac, lactose intolerance).
 > **Brand tone:** Warm, straight-talking, kitchen-not-clinic. Georgia serif headings, system body. Palette: `#E8E3D8` bg, `#3A5239` deep green, `#C9A870` golden accent.
 
 ---
@@ -71,7 +71,7 @@ Welcome (1)
 
 ### Screen 3 — The Solution
 - **Route:** `SolutionScreen`
-- **Headline:** `NutriGuard checks every meal against your conditions — in 10 seconds.`
+- **Headline:** `Nutricare Ai checks every meal against your conditions — in 10 seconds.`
 - **Sub:** `Snap it. Scan the label. Or just type what you're eating. We'll tell you straight.`
 - **Visual:** Mini animated demo of the 5 verdict chips appearing one-by-one (All Good!, Mostly Fine, Eat Less, Not Ideal, Skip It).
 - **CTA:** `Show me how →`
@@ -150,7 +150,7 @@ Welcome (1)
 ### Screen 9 — The Bridge
 - **Route:** `BridgeScreen`
 - **Headline:** `It doesn't have to be guesswork anymore.`
-- **Sub:** `{name}, we built NutriGuard specifically for people managing {condition(s)}. Let's set up your personal food guide. Takes 2 minutes.`
+- **Sub:** `{name}, we built Nutricare Ai specifically for people managing {condition(s)}. Let's set up your personal food guide. Takes 2 minutes.`
 - **CTA:** `Yes, let's do it →`
 
 ---
@@ -221,7 +221,7 @@ Welcome (1)
   - `Right now, {Q1 answer paraphrased}.`
   - `Food stresses you out {Q3 answer}.`
   - `What you really want is to {Q4 answer paraphrased}.`
-- **Final italic line (fades in last):** `We hear you. NutriGuard was built for exactly this.`
+- **Final italic line (fades in last):** `We hear you. Nutricare Ai was built for exactly this.`
 - **CTA appears after all lines:** `I'm in →`
 
 > *Pure Mao: mirror the user's answers back to make them feel heard.*
@@ -255,10 +255,10 @@ Welcome (1)
 
 ### Screen 18 — Confirmation Chart + Testimonial
 - **Route:** `ConfirmationScreen`
-- **Top:** Small bar chart visual — `Reported food anxiety after 30 days using NutriGuard` showing a steeply declining curve. Illustrative — not real data; labelled `Based on user surveys`.
+- **Top:** Small bar chart visual — `Reported food anxiety after 30 days using Nutricare Ai` showing a steeply declining curve. Illustrative — not real data; labelled `Based on user surveys`.
 - **Headline below chart:** `Most users feel in control of their meals within 30 days.`
 - **Quote card (warm card, italic Georgia):**
-  > *"I've had Type 2 diabetes for 8 years. NutriGuard gave me back the joy of eating. I scan, I know, I move on."*
+  > *"I've had Type 2 diabetes for 8 years. Nutricare Ai gave me back the joy of eating. I scan, I know, I move on."*
   > **— Priya, 47**
 - **CTA:** `Show me how it works →`
 
@@ -384,7 +384,7 @@ Welcome (1)
 - **Route:** `DisclaimerScreen` *(matches existing MVP spec)*
 - **Header (Georgia):** `Quick note before we go.`
 - **Body (italic):**
-  > "NutriGuard gives general wellness info based on widely accepted dietary guidelines. This isn't medical advice — always check with your doctor before changing what you eat."
+  > "Nutricare Ai gives general wellness info based on widely accepted dietary guidelines. This isn't medical advice — always check with your doctor before changing what you eat."
 - **Checkbox:** `I understand and agree.`
 - **CTA:** `Continue →` (disabled until checked)
 - **App Store compliance.** Acknowledgement timestamped after auth (Screen 30).
@@ -496,13 +496,13 @@ After tap, the button area collapses and a response card appears:
 
 ### Footer
 - `Restore Purchases  ·  Terms  ·  Privacy`
-- Disclaimer footer: `NutriGuard gives general wellness info, not medical advice.`
+- Disclaimer footer: `Nutricare Ai gives general wellness info, not medical advice.`
 
 ### Behaviour
 - Tap Start trial → RevenueCat purchase flow → Apple sheet.
 - Success → `entitlement = pro` → dismiss → Home with Day-1 streak intact.
 - Dismiss × → Home (free tier active, 3 lifetime photo scans).
-- **Trial-end reminder:** Schedule local notification 24h before trial expiry: `Your NutriGuard free trial ends tomorrow. We'll auto-renew at $49.99 — cancel anytime in Settings.`
+- **Trial-end reminder:** Schedule local notification 24h before trial expiry: `Your Nutricare Ai free trial ends tomorrow. We'll auto-renew at $49.99 — cancel anytime in Settings.`
 
 ---
 

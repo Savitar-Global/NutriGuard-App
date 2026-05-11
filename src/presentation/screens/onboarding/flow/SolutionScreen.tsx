@@ -30,7 +30,7 @@ export function SolutionScreen() {
       <View style={styles.body}>
         <OnboardingHero
           eyebrow="The solution"
-          title={'NutriGuard checks every meal\nagainst your conditions —'}
+          title={'Nutricare Ai checks every meal\nagainst your conditions —'}
           italicTail="in 10 seconds."
           subtitle="Snap it. Scan the label. Or just type what you’re eating. We’ll tell you straight."
         />

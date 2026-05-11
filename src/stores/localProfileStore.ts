@@ -34,7 +34,7 @@ export const useLocalProfileStore = create<LocalProfileState>()(
       setHeightUnit: (unit) => set({ heightUnit: unit }),
     }),
     {
-      name: 'nutriguard-local-profile',
+      name: 'nutricareai-local-profile',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),

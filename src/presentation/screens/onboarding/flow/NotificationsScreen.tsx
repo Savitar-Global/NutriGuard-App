@@ -60,7 +60,7 @@ export function NotificationsScreen() {
             <Text style={styles.previewIconGlyph}>🍽️</Text>
           </View>
           <View style={styles.previewCopy}>
-            <Text style={styles.previewTitle}>NutriGuard</Text>
+            <Text style={styles.previewTitle}>Nutricare Ai</Text>
             <Text style={styles.previewBody}>
               Your 1-day streak ends tonight — scan your dinner to keep it
               alive 🍽️

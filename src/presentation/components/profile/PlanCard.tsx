@@ -7,14 +7,16 @@ import {
   type ViewStyle,
 } from 'react-native';
 
-import { FREE_SCAN_LIMIT } from '@/config/constants';
+import { FREE_SCAN_LIMIT, PRODUCT_IDS } from '@/config/constants';
 import type { Plan } from '@/domain/entities/User';
 import { colors, opacity, radius, spacing, typography } from '@/presentation/theme';
 
 interface PlanCardProps {
   plan: Plan;
   lifetimePhotoScansUsed: number;
-  renewsAt?: Date | null;
+  productIdentifier?: string | null;
+  expirationDate?: Date | null;
+  willRenew?: boolean;
   onPressCta?: () => void;
   style?: StyleProp<ViewStyle>;
 }
@@ -22,7 +24,9 @@ interface PlanCardProps {
 export function PlanCard({
   plan,
   lifetimePhotoScansUsed,
-  renewsAt,
+  productIdentifier,
+  expirationDate,
+  willRenew,
   onPressCta,
   style,
 }: PlanCardProps) {
@@ -31,7 +35,11 @@ export function PlanCard({
   return (
     <View style={[styles.card, variant, style]}>
       {plan === 'pro' ? (
-        <ProContent renewsAt={renewsAt ?? null} />
+        <ProContent
+          productIdentifier={productIdentifier ?? null}
+          expirationDate={expirationDate ?? null}
+          willRenew={willRenew ?? true}
+        />
       ) : (
         <FreeContent lifetimePhotoScansUsed={lifetimePhotoScansUsed} />
       )}
@@ -45,24 +53,42 @@ export function PlanCard({
 }
 
 interface ProContentProps {
-  renewsAt: Date | null;
+  productIdentifier: string | null;
+  expirationDate: Date | null;
+  willRenew: boolean;
 }
 
-function ProContent({ renewsAt }: ProContentProps) {
-  const renewsLabel = renewsAt
-    ? `Renews ${renewsAt.toLocaleDateString(undefined, {
+function ProContent({ productIdentifier, expirationDate, willRenew }: ProContentProps) {
+  const planName = resolvePlanName(productIdentifier);
+  const dateLabel = expirationDate
+    ? expirationDate.toLocaleDateString(undefined, {
         month: 'short',
+        day: 'numeric',
         year: 'numeric',
-      })}`
-    : 'Active subscription';
+      })
+    : null;
+
+  const heading = !dateLabel
+    ? 'Active subscription'
+    : willRenew
+      ? `Renews ${dateLabel}`
+      : `Ends ${dateLabel}`;
+
+  const sub = willRenew ? 'Unlimited scans' : 'Cancelled · access until end of period';
 
   return (
     <View style={styles.copy}>
-      <Text style={[typography.planLabel, styles.proLabel]}>✨ Pro · Annual</Text>
-      <Text style={[typography.planHeading, styles.proHeading]}>{renewsLabel}</Text>
-      <Text style={[typography.planSub, styles.proSub]}>Unlimited scans</Text>
+      <Text style={[typography.planLabel, styles.proLabel]}>Pro · {planName}</Text>
+      <Text style={[typography.planHeading, styles.proHeading]}>{heading}</Text>
+      <Text style={[typography.planSub, styles.proSub]}>{sub}</Text>
     </View>
   );
+}
+
+function resolvePlanName(productIdentifier: string | null): string {
+  if (productIdentifier === PRODUCT_IDS.annual) return 'Annual';
+  if (productIdentifier === PRODUCT_IDS.monthly) return 'Monthly';
+  return 'Active';
 }
 
 interface FreeContentProps {

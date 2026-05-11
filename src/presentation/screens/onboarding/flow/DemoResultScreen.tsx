@@ -111,7 +111,7 @@ export function DemoResultScreen() {
         ))}
 
         <Text style={styles.disclaimer}>
-          NutriGuard gives general wellness info, not medical advice.
+          Nutricare Ai gives general wellness info, not medical advice.
         </Text>
       </View>
 

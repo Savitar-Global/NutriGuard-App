@@ -25,7 +25,7 @@ export function DemoIntroScreen() {
         <OnboardingHero
           eyebrow="Quick demo"
           title={name ? `Let’s try one together, ${name}.` : 'Let’s try one together.'}
-          subtitle="Here’s a meal someone might eat tonight. We’ll check it the same way you would — and you’ll see exactly how NutriGuard works."
+          subtitle="Here’s a meal someone might eat tonight. We’ll check it the same way you would — and you’ll see exactly how Nutricare Ai works."
         />
 
         <View style={styles.plateCard}>

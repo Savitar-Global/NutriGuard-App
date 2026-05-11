@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -9,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { isAppleSignInAvailable } from '@/data/services/appleAuth';
+import { isAppleSignInAvailable, isExpoGo } from '@/data/services/appleAuth';
 import { AppleAuthButton } from '@/presentation/components/AppleAuthButton';
 import { Checkbox } from '@/presentation/components/Checkbox';
 import { Divider } from '@/presentation/components/Divider';
@@ -60,6 +61,13 @@ export function SignUpScreen({ onNavigateToLogin }: SignUpScreenProps) {
 
   const onApple = async () => {
     if (!acknowledged) return;
+    if (isExpoGo()) {
+      Alert.alert(
+        'Not available in Expo Go',
+        'Apple Sign In needs a native dev client or TestFlight build to run. The button is shown here for layout only.',
+      );
+      return;
+    }
     try {
       await signInWithApple();
     } catch {
@@ -128,7 +136,7 @@ export function SignUpScreen({ onNavigateToLogin }: SignUpScreenProps) {
           <View style={styles.checkboxWrap}>
             <Checkbox checked={acknowledged} onChange={setAcknowledged}>
               <Text style={styles.checkboxText}>
-                I understand NutriGuard is{' '}
+                I understand Nutricare Ai is{' '}
                 <Text style={styles.checkboxBold}>not medical advice</Text>.
               </Text>
             </Checkbox>
@@ -151,7 +159,7 @@ export function SignUpScreen({ onNavigateToLogin }: SignUpScreenProps) {
                   label="Continue with Apple"
                   onPress={onApple}
                   disabled={!acknowledged || isSubmitting}
-                  variant="light"
+                  variant="dark"
                 />
               </>
             )}

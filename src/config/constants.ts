@@ -17,14 +17,19 @@ export const CONDITIONS: Array<{ id: ConditionId; label: string; emoji: string }
   { id: 'lactose_intolerance', label: 'Lactose intolerance', emoji: '🥛' },
 ];
 
-export const REVENUECAT_ENTITLEMENT = 'pro';
+// Entitlement identifier configured in RevenueCat dashboard.
+export const REVENUECAT_ENTITLEMENT = 'NutriCare_AI Pro';
 
+// App Store Connect product IDs.
 export const PRODUCT_IDS = {
-  monthly: 'nutriguard_pro_monthly_999',
-  annual: 'nutriguard_pro_annual_4999',
+  monthly: 'NutriCareAI_M1',
+  annual: 'NutriCareAI_Y1',
 } as const;
 
+// Apple subscription management deep link (App Store).
+export const APPLE_SUBSCRIPTIONS_URL = 'https://apps.apple.com/account/subscriptions';
+
 export const LEGAL_URLS = {
-  privacyPolicy: 'https://nutriguard.app/privacy',
-  termsAndConditions: 'https://nutriguard.app/terms',
+  privacyPolicy: 'https://dklochana.github.io/NutriCare-AI/privacy-policy/',
+  termsAndConditions: 'https://dklochana.github.io/NutriCare-AI/terms-of-service/',
 } as const;

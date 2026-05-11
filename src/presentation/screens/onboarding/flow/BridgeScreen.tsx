@@ -33,8 +33,8 @@ export function BridgeScreen() {
           title="It doesn’t have to be guesswork anymore."
           subtitle={
             name
-              ? `${name}, NutriGuard was built specifically for people managing ${conditionsSentence(conditions, customs)}. Let’s set up your personal food guide. Takes about 2 minutes.`
-              : `NutriGuard was built specifically for people managing ${conditionsSentence(conditions, customs)}. Let’s set up your personal food guide. Takes about 2 minutes.`
+              ? `${name}, Nutricare Ai was built specifically for people managing ${conditionsSentence(conditions, customs)}. Let’s set up your personal food guide. Takes about 2 minutes.`
+              : `Nutricare Ai was built specifically for people managing ${conditionsSentence(conditions, customs)}. Let’s set up your personal food guide. Takes about 2 minutes.`
           }
         />
       </View>

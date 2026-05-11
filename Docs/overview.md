@@ -1,19 +1,19 @@
-# NutriGuard — Engineering Overview
+# Nutricare Ai — Engineering Overview
 
-> Single source of truth for anyone (human or AI agent) building NutriGuard. Read this top-to-bottom before writing code. Every architectural decision below is final unless explicitly revisited.
+> Single source of truth for anyone (human or AI agent) building Nutricare Ai. Read this top-to-bottom before writing code. Every architectural decision below is final unless explicitly revisited.
 
 **Status:** v1 spec · iOS only · May 2026
-**Companion docs:** [`Docs/NutriGuard-MVP.pdf`](../Docs/NutriGuard-MVP.pdf) (product), [`Docs/NutriGuard-Screens.html`](../Docs/NutriGuard-Screens.html) (UI mocks)
+**Companion docs:** [`Docs/Nutricare Ai-MVP.pdf`](../Docs/Nutricare Ai-MVP.pdf) (product), [`Docs/Nutricare Ai-Screens.html`](../Docs/Nutricare Ai-Screens.html) (UI mocks)
 
 ---
 
 ## 1. Project Overview
 
-**Name:** NutriGuard
+**Name:** Nutricare Ai
 **Tagline:** *Your food. Your conditions. Your answer.*
 **Platform:** iOS only (iPhone), built with React Native + Expo (Dev Client)
 
-**Elevator pitch:** Hundreds of millions of people live with chronic conditions like diabetes, gastritis, GERD, hypertension, high cholesterol, and gout. Every meal is a guess: *can I eat this?* Calorie apps were built for gym-goers. NutriGuard is built for patients. Snap a meal, scan a label, or type a description — get an honest, condition-aware verdict in 10 seconds, plus practical "damage control" advice when you eat something flagged.
+**Elevator pitch:** Hundreds of millions of people live with chronic conditions like diabetes, gastritis, GERD, hypertension, high cholesterol, and gout. Every meal is a guess: *can I eat this?* Calorie apps were built for gym-goers. Nutricare Ai is built for patients. Snap a meal, scan a label, or type a description — get an honest, condition-aware verdict in 10 seconds, plus practical "damage control" advice when you eat something flagged.
 
 **Target audience:** Adults 25–65 managing one or more of: diabetes, gastritis, hypertension, GERD, high cholesterol, gout, celiac, lactose intolerance, plus user-defined custom conditions.
 
@@ -25,7 +25,7 @@
 
 ### In scope (v1)
 
-All 13 screens from [`Docs/NutriGuard-Screens.html`](../Docs/NutriGuard-Screens.html):
+All 13 screens from [`Docs/Nutricare Ai-Screens.html`](../Docs/Nutricare Ai-Screens.html):
 
 - Auth: sign-up, log-in (email + Apple Sign-In)
 - Onboarding: pick conditions, body details, disclaimer acknowledgement
@@ -69,7 +69,7 @@ No admin role. No multi-user accounts. No role hierarchy.
 
 ## 4. Screen Map
 
-Every mock in [`Docs/NutriGuard-Screens.html`](../Docs/NutriGuard-Screens.html) maps to exactly one route.
+Every mock in [`Docs/Nutricare Ai-Screens.html`](../Docs/Nutricare Ai-Screens.html) maps to exactly one route.
 
 | # | Mock | Route name | Navigator | Purpose |
 | --- | --- | --- | --- | --- |
@@ -366,7 +366,7 @@ All versions verified against **Expo SDK 54** at the time of writing. Run `npx e
 ## 9. Project Structure (Clean Architecture)
 
 ```
-NutriGuard-App/
+Nutricare Ai-App/
 ├── App.tsx                       # mounts providers + RootNavigator
 ├── app.config.ts                 # Expo config; reads .env
 ├── eas.json                      # EAS Build profiles
@@ -538,7 +538,7 @@ type EntitlementStore = {
 ### Project setup
 
 - **Region:** `nam5` (multi-region US) for Firestore. Auth is global.
-- **Bundle ID:** `com.nutriguard.app` (confirm before App Store record creation)
+- **Bundle ID:** `com.nutricareai.app` (confirm before App Store record creation)
 - **Firestore mode:** Native (not Datastore). Single database `(default)`.
 - **No Cloud Functions in v1.** Migrating the OpenAI call to a callable Function is the #1 post-launch improvement (see §12).
 
@@ -620,8 +620,8 @@ isPro(info: CustomerInfo): boolean       // checks entitlements['pro'].isActive
 ```
 
 - Product IDs (configure in App Store Connect AND RevenueCat dashboard):
-  - `nutriguard_pro_monthly_999` → entitlement `pro`
-  - `nutriguard_pro_annual_4999` → entitlement `pro`
+  - `nutricareai_pro_monthly_999` → entitlement `pro`
+  - `nutricareai_pro_annual_4999` → entitlement `pro`
 - App user ID = Firebase `uid`. Call `Purchases.logIn(uid)` after Firebase sign-in; `Purchases.logOut()` on sign-out.
 
 ### Apple Sign-In (`src/data/services/appleAuth.ts`)
@@ -728,9 +728,9 @@ Tab order matches mocks (Home / Last Scan / Profile). `AnalysingScreen` is non-d
 // app.config.ts (summary)
 export default ({ config }) => ({
   ...config,
-  name: 'NutriGuard',
-  slug: 'nutriguard',
-  ios: { bundleIdentifier: 'com.nutriguard.app', ... },
+  name: 'Nutricare Ai',
+  slug: 'nutricare-ai',
+  ios: { bundleIdentifier: 'com.nutricareai.app', ... },
   extra: {
     openaiApiKey: process.env.OPENAI_API_KEY,
     revenueCatIosKey: process.env.REVENUECAT_IOS_KEY,
@@ -745,7 +745,7 @@ export default ({ config }) => ({
 ```
 OPENAI_API_KEY=sk-proj-...
 REVENUECAT_IOS_KEY=appl_...
-FIREBASE_PROJECT_ID=nutriguard-prod
+FIREBASE_PROJECT_ID=nutricareai-prod
 ```
 
 `GoogleService-Info.plist` is committed (it's not a secret — it's a public client config).
@@ -787,12 +787,12 @@ FIREBASE_PROJECT_ID=nutriguard-prod
 - [ ] **Category:** Health & Fitness (NOT Medical)
 - [ ] **Disclaimer** acknowledged during onboarding (`DisclaimerScreen`) AND visible as `<DisclaimerFooter />` on every results-bearing screen
 - [ ] **Info.plist usage strings** (set in `app.config.ts → ios.infoPlist`):
-  - `NSCameraUsageDescription`: "NutriGuard uses your camera to scan meals and food labels."
+  - `NSCameraUsageDescription`: "Nutricare Ai uses your camera to scan meals and food labels."
   - `NSPhotoLibraryUsageDescription`: "Choose a meal photo from your library to scan."
   - `NSPhotoLibraryAddUsageDescription`: "Save your shared result card to Photos."
   - `NSUserNotificationsUsageDescription`: handled at runtime via `expo-notifications` request
 - [ ] **Apple Sign-In** offered (App Store Guideline 4.8 — required because we offer non-Apple sign-in)
-- [ ] **Privacy policy URL** — TODO before submission, hosted at `nutriguard.app/privacy` (or similar)
+- [ ] **Privacy policy URL** — TODO before submission, hosted at `nutricareai.app/privacy` (or similar)
 - [ ] **App Tracking Transparency** — NOT required (no IDFA collection, no ad networks)
 - [ ] **Sensitive content** — medical-adjacent, but Health & Fitness category is correct because we provide general wellness info, not diagnosis or treatment
 - [ ] **In-app purchases** via StoreKit / RevenueCat only — no external payment links
@@ -809,7 +809,7 @@ Each phase ships independently to TestFlight. Don't move to phase N+1 until N is
 
 | # | Phase | Definition of done |
 | --- | --- | --- |
-| 0 | **Prereqs** | RevenueCat account created; products `nutriguard_pro_monthly_999` & `nutriguard_pro_annual_4999` configured in App Store Connect AND RevenueCat dashboard with entitlement `pro`; Apple Developer team ID confirmed; Firebase project keys in `.env`; OpenAI API key with funded billing |
+| 0 | **Prereqs** | RevenueCat account created; products `nutricareai_pro_monthly_999` & `nutricareai_pro_annual_4999` configured in App Store Connect AND RevenueCat dashboard with entitlement `pro`; Apple Developer team ID confirmed; Firebase project keys in `.env`; OpenAI API key with funded billing |
 | 1 | **Scaffold** | `npx create-expo-app`, all packages from §8 installed, TS strict, ESLint + Prettier wired, EAS init, `eas build --profile development` produces a working Dev Client on a real device |
 | 2 | **Firebase wired** | `firebase.ts` initialises, Auth listener emits, Firestore connects, security rules deployed via `firebase deploy --only firestore:rules` |
 | 3 | **Auth + Onboarding** | Email + Apple sign-up/in works end-to-end, `users/{uid}` doc created, `OnboardingStack` 3 screens functional, lands on Home after disclaimer |
@@ -901,15 +901,15 @@ Typography: Georgia (serif) for headings, system sans for body and UI. No extern
 
 | Trigger | Title | Body |
 | --- | --- | --- |
-| Streak risk (daily 8pm if no scan) | NutriGuard | "Your {N}-day streak ends tonight — scan your dinner to keep it alive 🍽️" |
-| Streak milestone 7 | NutriGuard | "7 days in a row — you're actually building a habit here 🍽️" |
-| Streak milestone 14 | NutriGuard | "Two weeks straight. That's not luck, that's discipline 🍽️" |
-| Streak milestone 30 | NutriGuard | "30 days. NutriGuard has officially become your habit 🍽️" |
-| First scan nudge (+24h) | NutriGuard | "You haven't tried your first scan yet — takes about 10 seconds 🍽️" |
+| Streak risk (daily 8pm if no scan) | Nutricare Ai | "Your {N}-day streak ends tonight — scan your dinner to keep it alive 🍽️" |
+| Streak milestone 7 | Nutricare Ai | "7 days in a row — you're actually building a habit here 🍽️" |
+| Streak milestone 14 | Nutricare Ai | "Two weeks straight. That's not luck, that's discipline 🍽️" |
+| Streak milestone 30 | Nutricare Ai | "30 days. Nutricare Ai has officially become your habit 🍽️" |
+| First scan nudge (+24h) | Nutricare Ai | "You haven't tried your first scan yet — takes about 10 seconds 🍽️" |
 
 ## Appendix C — Disclaimer copy (verbatim)
 
-> "NutriGuard gives general wellness info based on widely accepted dietary guidelines. This isn't medical advice — always check with your doctor before changing what you eat."
+> "Nutricare Ai gives general wellness info based on widely accepted dietary guidelines. This isn't medical advice — always check with your doctor before changing what you eat."
 
 Shown:
 1. As a checkbox-gated paragraph on `SignUpScreen`

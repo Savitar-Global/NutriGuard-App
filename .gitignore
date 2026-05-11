@@ -21,3 +21,6 @@ expo-env.d.ts
 # macOS
 .DS_Store
 *.swp
+
+# EAS secrets — never commit
+eas.json

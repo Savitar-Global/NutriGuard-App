@@ -24,8 +24,10 @@ import { PlanCard } from '@/presentation/components/profile/PlanCard';
 import { ProfileHeaderRow } from '@/presentation/components/profile/ProfileHeaderRow';
 import { SettingsList, SettingsRow } from '@/presentation/components/profile/SettingsRow';
 import type { ProfileStackParamList } from '@/presentation/navigation/ProfileStack';
+import type { RootStackParamList } from '@/presentation/navigation/RootNavigator';
 import { colors, spacing, typography } from '@/presentation/theme';
 import { useAuthStore } from '@/stores/authStore';
+import { useEntitlementStore } from '@/stores/entitlementStore';
 import { useLocalAvatarUri, useLocalProfileStore } from '@/stores/localProfileStore';
 import { useUserStore } from '@/stores/userStore';
 import { AGE_LIMITS, ageToBirthday, calculateAge } from '@/utils/age';
@@ -40,13 +42,17 @@ const CONDITION_LABELS: Record<ConditionId, string> = CONDITIONS.reduce(
 );
 
 type Nav = NativeStackNavigationProp<ProfileStackParamList, 'Profile'>;
+type RootNav = NativeStackNavigationProp<RootStackParamList>;
 
 export function ProfileScreen() {
   const navigation = useNavigation<Nav>();
+  const rootNavigation = useNavigation<RootNav>();
   const profile = useUserStore((s) => s.profile);
   const saveConditions = useUserStore((s) => s.saveConditions);
   const updateProfile = useUserStore((s) => s.updateProfile);
   const signOut = useAuthStore((s) => s.signOut);
+
+  const entitlement = useEntitlementStore((s) => s.entitlement);
 
   const avatarUri = useLocalAvatarUri(profile?.uid);
   const setAvatarUri = useLocalProfileStore((s) => s.setAvatarUri);
@@ -302,6 +308,14 @@ export function ProfileScreen() {
         <PlanCard
           plan={profile.plan}
           lifetimePhotoScansUsed={profile.lifetimePhotoScansUsed}
+          productIdentifier={entitlement.productIdentifier}
+          expirationDate={entitlement.expirationDate}
+          willRenew={entitlement.willRenew}
+          onPressCta={
+            profile.plan === 'pro'
+              ? () => navigation.navigate('ManageSubscription')
+              : () => rootNavigation.navigate('Paywall')
+          }
           style={styles.planCard}
         />
 

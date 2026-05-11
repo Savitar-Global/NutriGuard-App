@@ -11,6 +11,8 @@ import {
 import type { Scan } from '@/domain/entities/Scan';
 import { AppError } from '@/types/global';
 
+import { useUserStore } from './userStore';
+
 interface ScanState {
   current: Scan | null;
   isAnalysing: boolean;
@@ -51,6 +53,14 @@ export const useScanStore = create<ScanState>()(
           const scan = await analyseMealUseCase(input);
           set({ current: scan });
           persistToCloud(scan);
+
+          // Photo & gallery scans count against the free-tier quota.
+          // Text-only ("Type-It-In") scans are always free and don't increment.
+          if (input.photoUri) {
+            const uid = firebaseAuth.currentUser?.uid;
+            if (uid) void useUserStore.getState().incrementPhotoScans(uid);
+          }
+
           return scan;
         } catch (err) {
           const mapped = wrapError(err);
@@ -94,7 +104,7 @@ export const useScanStore = create<ScanState>()(
         set({ current: null, isAnalysing: false, error: null }),
     }),
     {
-      name: 'nutriguard-scan',
+      name: 'nutricareai-scan',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({ current: state.current }),
       onRehydrateStorage: () => (state) => {

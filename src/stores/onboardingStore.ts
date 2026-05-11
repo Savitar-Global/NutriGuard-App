@@ -77,7 +77,7 @@ export const useOnboardingStore = create<OnboardingState>()(
       reset: () => set({ answers: EMPTY_ANSWERS }),
     }),
     {
-      name: 'nutriguard-onboarding',
+      name: 'nutricareai-onboarding',
       storage: createJSONStorage(() => AsyncStorage, {
         reviver: (key, value) => {
           if (key === 'birthday' && typeof value === 'string') {

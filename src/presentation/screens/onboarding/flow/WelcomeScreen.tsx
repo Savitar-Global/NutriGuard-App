@@ -27,7 +27,7 @@ export function WelcomeScreen() {
           subtitle="We’ll set up a food guide that fits your conditions — together."
         />
         <Text style={styles.tagline}>
-          NutriGuard checks every meal, every label, every craving — against your
+          Nutricare Ai checks every meal, every label, every craving — against your
           conditions.
         </Text>
       </View>

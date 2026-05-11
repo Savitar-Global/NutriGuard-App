@@ -9,7 +9,16 @@ export type IconName =
   | 'leaf'
   | 'bulb'
   | 'question'
-  | 'check';
+  | 'check'
+  | 'sparkle'
+  | 'close'
+  | 'infinity'
+  | 'chevron-right'
+  | 'settings'
+  | 'swap'
+  | 'refresh'
+  | 'arrow-down-circle'
+  | 'lock';
 
 interface IconProps {
   name: IconName;
@@ -177,6 +186,147 @@ export function Icon({ name, size = 22, color, strokeWidth = 1.6 }: IconProps) {
             strokeLinecap="round"
             strokeLinejoin="round"
           />
+        </Svg>
+      );
+
+    case 'sparkle':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z"
+            fill={color}
+          />
+          <Path
+            d="M19 15l.9 2.4L22 18l-2.1.6L19 21l-.9-2.4L16 18l2.1-.6L19 15Z"
+            fill={color}
+            opacity={0.7}
+          />
+        </Svg>
+      );
+
+    case 'close':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M6 6l12 12M18 6L6 18"
+            stroke={color}
+            strokeWidth={strokeWidth + 0.2}
+            strokeLinecap="round"
+          />
+        </Svg>
+      );
+
+    case 'infinity':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M8.5 12c0-2-1.6-3.5-3.5-3.5S1.5 10 1.5 12 3.1 15.5 5 15.5c1.5 0 2.8-1 3.5-2 .7-1 2-2 3.5-2s2.8 1 3.5 2c.7 1 2 2 3.5 2 1.9 0 3.5-1.5 3.5-3.5S20.9 8.5 19 8.5c-1.5 0-2.8 1-3.5 2-.7 1-2 2-3.5 2s-2.8-1-3.5-2c-.7-1-2-2-3.5-2"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </Svg>
+      );
+
+    case 'chevron-right':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M9 6l6 6-6 6"
+            stroke={color}
+            strokeWidth={strokeWidth + 0.2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </Svg>
+      );
+
+    case 'settings':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Circle
+            cx={12}
+            cy={12}
+            r={3}
+            stroke={color}
+            strokeWidth={strokeWidth}
+          />
+          <Path
+            d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </Svg>
+      );
+
+    case 'swap':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M7 4L3 8l4 4M3 8h13a4 4 0 0 1 4 4M17 20l4-4-4-4M21 16H8a4 4 0 0 1-4-4"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </Svg>
+      );
+
+    case 'refresh':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Path
+            d="M3 12a9 9 0 0 1 15.5-6.3L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.3L3 16M3 21v-5h5"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </Svg>
+      );
+
+    case 'arrow-down-circle':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Circle
+            cx={12}
+            cy={12}
+            r={9}
+            stroke={color}
+            strokeWidth={strokeWidth}
+          />
+          <Path
+            d="M8 12l4 4 4-4M12 8v8"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </Svg>
+      );
+
+    case 'lock':
+      return (
+        <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <Rect
+            x={4.5}
+            y={10.5}
+            width={15}
+            height={10.5}
+            rx={2}
+            stroke={color}
+            strokeWidth={strokeWidth}
+          />
+          <Path
+            d="M8 10.5V7a4 4 0 0 1 8 0v3.5"
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+          />
+          <Circle cx={12} cy={15.5} r={1.4} fill={color} />
         </Svg>
       );
   }

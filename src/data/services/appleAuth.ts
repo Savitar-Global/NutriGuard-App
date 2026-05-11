@@ -11,13 +11,14 @@ export interface AppleSignInResult {
   email: string | null;
 }
 
-const isExpoGo = (): boolean =>
+export const isExpoGo = (): boolean =>
   Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
 export const isAppleSignInAvailable = async (): Promise<boolean> => {
   if (Platform.OS !== 'ios') return false;
-  // Apple Sign-In needs the entitlement bundled at build time — Expo Go can't carry it.
-  if (isExpoGo()) return false;
+  // Show the button in Expo Go for visual QA, even though the press will fail
+  // (entitlement is only present in native dev/release builds).
+  if (isExpoGo()) return true;
   return AppleAuthentication.isAvailableAsync();
 };
 

@@ -18,6 +18,7 @@ interface ScanActionRowProps {
   description: string;
   variant?: ScanActionVariant;
   badge?: string;
+  locked?: boolean;
   onPress: () => void;
 }
 
@@ -27,9 +28,13 @@ export function ScanActionRow({
   description,
   variant = 'standard',
   badge,
+  locked = false,
   onPress,
 }: ScanActionRowProps) {
   const palette = PALETTES[variant];
+  const accessibilityHint = locked
+    ? `${description}. Premium feature — upgrade to unlock.`
+    : description;
 
   return (
     <Pressable
@@ -41,7 +46,8 @@ export function ScanActionRow({
       ]}
       accessibilityRole="button"
       accessibilityLabel={title}
-      accessibilityHint={description}
+      accessibilityHint={accessibilityHint}
+      accessibilityState={{ disabled: locked }}
     >
       <View style={[styles.iconWrap, { backgroundColor: palette.iconBg }]}>
         <Icon name={icon} size={22} color={palette.icon} />
@@ -75,6 +81,15 @@ export function ScanActionRow({
           strokeLinejoin="round"
         />
       </Svg>
+
+      {locked ? (
+        <View
+          style={[styles.lockBadge, { backgroundColor: palette.lockBg }]}
+          pointerEvents="none"
+        >
+          <Icon name="lock" size={11} color={palette.lockFg} strokeWidth={2} />
+        </View>
+      ) : null}
     </Pressable>
   );
 }
@@ -89,6 +104,8 @@ interface Palette {
   chevron: string;
   badgeBg: string;
   badgeFg: string;
+  lockBg: string;
+  lockFg: string;
 }
 
 const PALETTES: Record<ScanActionVariant, Palette> = {
@@ -102,6 +119,8 @@ const PALETTES: Record<ScanActionVariant, Palette> = {
     chevron: colors.onPrimary.textSoft,
     badgeBg: colors.onPrimary.surfaceElevated,
     badgeFg: colors.onPrimary.text,
+    lockBg: colors.accent,
+    lockFg: colors.primary,
   },
   accent: {
     bg: colors.accentTint.surface,
@@ -113,6 +132,8 @@ const PALETTES: Record<ScanActionVariant, Palette> = {
     chevron: colors.onPrimary.textSoft,
     badgeBg: colors.onPrimary.surfaceElevated,
     badgeFg: colors.onPrimary.text,
+    lockBg: colors.accent,
+    lockFg: colors.primary,
   },
 };
 
@@ -165,5 +186,15 @@ const styles = StyleSheet.create({
     fontSize: 9,
     fontWeight: '800',
     letterSpacing: 0.6,
+  },
+  lockBadge: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

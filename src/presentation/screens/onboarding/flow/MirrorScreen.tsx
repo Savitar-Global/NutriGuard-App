@@ -36,7 +36,7 @@ export function MirrorScreen() {
       `Right now, ${strategy}.`,
       `Food stresses you out ${anxiety}.`,
       `What you really want is to ${goal}.`,
-      'We hear you. NutriGuard was built for exactly this.',
+      'We hear you. Nutricare Ai was built for exactly this.',
     ];
   }, [a]);
 

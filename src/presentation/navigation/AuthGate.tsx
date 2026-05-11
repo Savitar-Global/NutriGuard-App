@@ -6,6 +6,7 @@ import { MainTabs } from '@/presentation/navigation/MainTabs';
 import { OnboardingFlowStack } from '@/presentation/navigation/OnboardingFlowStack';
 import { colors } from '@/presentation/theme';
 import { useAuthStore } from '@/stores/authStore';
+import { useEntitlementStore } from '@/stores/entitlementStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useScanStore } from '@/stores/scanStore';
 import { useUserStore } from '@/stores/userStore';
@@ -44,12 +45,16 @@ export function AuthGate() {
   const hydrateScan = useScanStore((s) => s.hydrateFromCloud);
   const resetScan = useScanStore((s) => s.reset);
 
+  const initEntitlement = useEntitlementStore((s) => s.init);
+  const resetEntitlement = useEntitlementStore((s) => s.reset);
+
   useEffect(() => initAuth(), [initAuth]);
 
   useEffect(() => {
     if (!user) {
       resetUser();
       resetScan();
+      void resetEntitlement();
       return;
     }
 
@@ -86,11 +91,20 @@ export function AuthGate() {
     })();
 
     void hydrateScan(user.uid);
+    void initEntitlement(user.uid);
 
     return () => {
       cancelled = true;
     };
-  }, [user, ensureUser, resetUser, hydrateScan, resetScan]);
+  }, [
+    user,
+    ensureUser,
+    resetUser,
+    hydrateScan,
+    resetScan,
+    initEntitlement,
+    resetEntitlement,
+  ]);
 
   if (isInitialising) {
     return (

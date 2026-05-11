@@ -10,7 +10,7 @@ import { InputAccessoryView, Platform, StyleSheet, View } from 'react-native';
  * view. Pair this with `inputAccessoryViewID={EMPTY_INPUT_ACCESSORY_ID}` on
  * each TextInput that uses a numeric keyboard.
  */
-export const EMPTY_INPUT_ACCESSORY_ID = 'nutriguard-empty-keyboard-accessory';
+export const EMPTY_INPUT_ACCESSORY_ID = 'nutricareai-empty-keyboard-accessory';
 
 export function EmptyInputAccessory() {
   if (Platform.OS !== 'ios') return null;
