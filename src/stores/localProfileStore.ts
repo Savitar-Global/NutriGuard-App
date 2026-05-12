@@ -8,10 +8,16 @@ interface LocalProfileState {
   avatarUriByUid: Record<string, string>;
   weightUnit: WeightUnit;
   heightUnit: HeightUnit;
+  // User-controlled toggle for inactivity reminders. Per-device because
+  // iOS notification permission itself is per-device. Defaults to true so
+  // users who granted system permission via the onboarding primer get
+  // reminders immediately without a second toggle action.
+  notificationsEnabled: boolean;
   setAvatarUri: (uid: string, uri: string) => void;
   clearAvatarUri: (uid: string) => void;
   setWeightUnit: (unit: WeightUnit) => void;
   setHeightUnit: (unit: HeightUnit) => void;
+  setNotificationsEnabled: (enabled: boolean) => void;
 }
 
 export const useLocalProfileStore = create<LocalProfileState>()(
@@ -20,6 +26,7 @@ export const useLocalProfileStore = create<LocalProfileState>()(
       avatarUriByUid: {},
       weightUnit: 'kg',
       heightUnit: 'cm',
+      notificationsEnabled: true,
       setAvatarUri: (uid, uri) =>
         set((s) => ({
           avatarUriByUid: { ...s.avatarUriByUid, [uid]: uri },
@@ -32,6 +39,7 @@ export const useLocalProfileStore = create<LocalProfileState>()(
         }),
       setWeightUnit: (unit) => set({ weightUnit: unit }),
       setHeightUnit: (unit) => set({ heightUnit: unit }),
+      setNotificationsEnabled: (enabled) => set({ notificationsEnabled: enabled }),
     }),
     {
       name: 'nutricareai-local-profile',

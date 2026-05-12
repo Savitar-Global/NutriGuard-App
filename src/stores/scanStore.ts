@@ -54,11 +54,17 @@ export const useScanStore = create<ScanState>()(
           set({ current: scan });
           persistToCloud(scan);
 
-          // Photo & gallery scans count against the free-tier quota.
-          // Text-only ("Type-It-In") scans are always free and don't increment.
-          if (input.photoUri) {
-            const uid = firebaseAuth.currentUser?.uid;
-            if (uid) void useUserStore.getState().incrementPhotoScans(uid);
+          const uid = firebaseAuth.currentUser?.uid;
+          if (uid) {
+            // Every scan — photo, ingredients, or text — counts toward the
+            // daily streak. Idempotent within a calendar day.
+            void useUserStore.getState().recordScan(uid, scan.createdAt);
+
+            // Photo & gallery scans count against the free-tier quota.
+            // Text-only ("Type-It-In") scans are always free and don't increment.
+            if (input.photoUri) {
+              void useUserStore.getState().incrementPhotoScans(uid);
+            }
           }
 
           return scan;

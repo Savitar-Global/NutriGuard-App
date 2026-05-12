@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { firestoreUserRepository } from '@/data/repositories/FirestoreUserRepository';
 import { MainTabs } from '@/presentation/navigation/MainTabs';
 import { OnboardingFlowStack } from '@/presentation/navigation/OnboardingFlowStack';
-import { colors } from '@/presentation/theme';
+import { LoadingScreen } from '@/presentation/screens/splash/LoadingScreen';
 import { useAuthStore } from '@/stores/authStore';
 import { useDemoScanStore } from '@/stores/demoScanStore';
 import { useEntitlementStore } from '@/stores/entitlementStore';
@@ -42,7 +41,9 @@ export function AuthGate() {
   const isLoadingProfile = useUserStore((s) => s.isLoading);
   const ensureUser = useUserStore((s) => s.ensure);
   const resetUser = useUserStore((s) => s.reset);
+  const recordScan = useUserStore((s) => s.recordScan);
 
+  const currentScan = useScanStore((s) => s.current);
   const hydrateScan = useScanStore((s) => s.hydrateFromCloud);
   const resetScan = useScanStore((s) => s.reset);
 
@@ -50,6 +51,16 @@ export function AuthGate() {
   const resetEntitlement = useEntitlementStore((s) => s.reset);
 
   useEffect(() => initAuth(), [initAuth]);
+
+  // One-time streak backfill: legacy users who scanned before streak tracking
+  // existed have `lastScanDate: null` but a hydrated `current` scan. Treat
+  // that scan as today's bump so the badge isn't stuck at 0 forever.
+  useEffect(() => {
+    if (!user || !profile || profile.uid !== user.uid) return;
+    if (profile.lastScanDate) return;
+    if (!currentScan) return;
+    void recordScan(user.uid, currentScan.createdAt);
+  }, [user, profile, currentScan, recordScan]);
 
   useEffect(() => {
     if (!user) {
@@ -109,11 +120,7 @@ export function AuthGate() {
   ]);
 
   if (isInitialising) {
-    return (
-      <View style={styles.splash}>
-        <ActivityIndicator color={colors.primary} />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   if (!user) {
@@ -122,21 +129,8 @@ export function AuthGate() {
 
   const profileMatchesUser = profile?.uid === user.uid;
   if (!profileMatchesUser && isLoadingProfile) {
-    return (
-      <View style={styles.splash}>
-        <ActivityIndicator color={colors.primary} />
-      </View>
-    );
+    return <LoadingScreen />;
   }
 
   return <MainTabs />;
 }
-
-const styles = StyleSheet.create({
-  splash: {
-    flex: 1,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

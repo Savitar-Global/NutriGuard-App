@@ -11,9 +11,6 @@ import { FREE_SCAN_LIMIT } from '@/config/constants';
 import { saveScanPhoto } from '@/data/services/photoStorage';
 import { ScanStack, type ScanStackParamList } from '@/presentation/navigation/ScanStack';
 import { HomeScreen } from '@/presentation/screens/home/HomeScreen';
-import { OnboardingPreviewWrapper } from '@/presentation/screens/onboarding/OnboardingPreviewWrapper';
-import { PickConditionsScreen } from '@/presentation/screens/onboarding/PickConditionsScreen';
-import { UnrecognisedScreen } from '@/presentation/screens/result/UnrecognisedScreen';
 import { useUserStore } from '@/stores/userStore';
 
 export type HomeStackParamList = {
@@ -22,9 +19,6 @@ export type HomeStackParamList = {
     initialRoute?: 'Camera' | 'TypeItIn';
     photoUri?: string;
   };
-  PickConditions: undefined;
-  TestUnrecognised: undefined;
-  TestOnboarding: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -120,14 +114,6 @@ function HomeContainer({ navigation }: HomeProps) {
     }
   };
 
-  const handleTestAnalysing = () => {
-    navigation.navigate('Scan', {
-      initialRoute: 'TypeItIn',
-      screen: 'Analysing',
-      params: { mode: 'text', text: 'Test meal: rice with chicken curry' },
-    });
-  };
-
   return (
     <HomeScreen
       onTakePhoto={handleTakePhoto}
@@ -135,11 +121,6 @@ function HomeContainer({ navigation }: HomeProps) {
       onTypeItIn={handleTypeItIn}
       onLastScanTap={goToLastScanTab}
       isPhotoLocked={isPhotoLocked}
-      onTestPickConditions={() => navigation.navigate('PickConditions')}
-      onTestAnalysing={handleTestAnalysing}
-      onTestUnrecognised={() => navigation.navigate('TestUnrecognised')}
-      onTestOnboarding={() => navigation.navigate('TestOnboarding')}
-      onTestPaywall={goToPaywall}
     />
   );
 }
@@ -175,34 +156,6 @@ export function HomeStack() {
             />
           );
         }}
-      </Stack.Screen>
-      <Stack.Screen
-        name="PickConditions"
-        component={PickConditionsScreen}
-        options={{ animation: 'slide_from_right' }}
-      />
-      <Stack.Screen
-        name="TestUnrecognised"
-        options={{ animation: 'slide_from_right' }}
-      >
-        {({ navigation }) => (
-          <UnrecognisedScreen
-            onBack={() => navigation.goBack()}
-            onScanAgain={() => navigation.goBack()}
-          />
-        )}
-      </Stack.Screen>
-      <Stack.Screen
-        name="TestOnboarding"
-        options={{
-          presentation: 'fullScreenModal',
-          animation: 'slide_from_bottom',
-          gestureEnabled: true,
-        }}
-      >
-        {({ navigation }) => (
-          <OnboardingPreviewWrapper onClose={() => navigation.goBack()} />
-        )}
       </Stack.Screen>
     </Stack.Navigator>
   );

@@ -1,32 +1,48 @@
+import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { colors, radius, sizes, spacing, typography } from '@/presentation/theme';
+import { colors, sizes, spacing, typography } from '@/presentation/theme';
 
 interface LogoProps {
+  size?: number;
   showWordmark?: boolean;
+  variant?: 'inline' | 'stacked';
 }
 
-export function Logo({ showWordmark = true }: LogoProps) {
+export function Logo({
+  size,
+  showWordmark = true,
+  variant = 'inline',
+}: LogoProps) {
+  const stacked = variant === 'stacked';
+  const markSize = size ?? (stacked ? 110 : sizes.logoBox);
+
   return (
-    <View style={styles.row}>
-      <View style={styles.box}>
-        <Text style={styles.glyph}>🌿</Text>
-      </View>
-      {showWordmark && <Text style={styles.wordmark}>Nutricare Ai</Text>}
+    <View style={stacked ? styles.col : styles.row}>
+      <Image
+        source={require('../../../assets/onboard.png')}
+        style={{ width: markSize, height: markSize }}
+        contentFit="contain"
+        accessibilityLabel="Nutricare Ai logo"
+      />
+      {showWordmark && (
+        <Text style={stacked ? styles.wordmarkStacked : styles.wordmark}>
+          Nutricare Ai
+        </Text>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  box: {
-    width: sizes.logoBox,
-    height: sizes.logoBox,
-    backgroundColor: colors.primary,
-    borderRadius: radius.sm,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  glyph: { fontSize: sizes.iconSm },
+  col: { alignItems: 'center', gap: spacing.sm },
   wordmark: typography.wordmark,
+  wordmarkStacked: {
+    ...typography.h1,
+    fontSize: 24,
+    lineHeight: 28,
+    color: colors.ink,
+    letterSpacing: -0.3,
+  },
 });

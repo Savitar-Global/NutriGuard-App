@@ -119,7 +119,7 @@ export function LoginScreen({ onBack }: LoginScreenProps) {
         >
 
           <View style={styles.logoWrap}>
-                      <Logo />
+            <Logo variant="stacked" />
           </View>
           <View style={styles.headerBlock}>
             <Text style={styles.h1}>Welcome back</Text>

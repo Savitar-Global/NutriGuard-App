@@ -1,4 +1,4 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { HomeGreeting } from '@/presentation/components/HomeGreeting';
@@ -16,11 +16,6 @@ interface HomeScreenProps {
   onTypeItIn: () => void;
   onLastScanTap: () => void;
   isPhotoLocked?: boolean;
-  onTestPickConditions?: () => void;
-  onTestAnalysing?: () => void;
-  onTestUnrecognised?: () => void;
-  onTestOnboarding?: () => void;
-  onTestPaywall?: () => void;
 }
 
 const lastScanIcon = (scanType: string | undefined): IconName => {
@@ -46,11 +41,6 @@ export function HomeScreen({
   onTypeItIn,
   onLastScanTap,
   isPhotoLocked = false,
-  onTestPickConditions,
-  onTestAnalysing,
-  onTestUnrecognised,
-  onTestOnboarding,
-  onTestPaywall,
 }: HomeScreenProps) {
   const profile = useUserStore((s) => s.profile);
   const scan = useScanStore((s) => s.current);
@@ -77,36 +67,6 @@ export function HomeScreen({
           isPhotoLocked={isPhotoLocked}
         />
 
-        {onTestPickConditions ? (
-          <Pressable onPress={onTestPickConditions} style={styles.testBtn}>
-            <Text style={styles.testBtnLabel}>⚙ TEST: Pick Conditions</Text>
-          </Pressable>
-        ) : null}
-
-        {onTestAnalysing ? (
-          <Pressable onPress={onTestAnalysing} style={styles.testBtn}>
-            <Text style={styles.testBtnLabel}>⏳ TEST: Analysing screen</Text>
-          </Pressable>
-        ) : null}
-
-        {onTestUnrecognised ? (
-          <Pressable onPress={onTestUnrecognised} style={styles.testBtn}>
-            <Text style={styles.testBtnLabel}>❓ TEST: Unrecognised</Text>
-          </Pressable>
-        ) : null}
-
-        {onTestOnboarding ? (
-          <Pressable onPress={onTestOnboarding} style={styles.testBtn}>
-            <Text style={styles.testBtnLabel}>🪄 TEST: Onboarding flow</Text>
-          </Pressable>
-        ) : null}
-
-        {onTestPaywall ? (
-          <Pressable onPress={onTestPaywall} style={styles.testBtn}>
-            <Text style={styles.testBtnLabel}>💳 TEST: Paywall</Text>
-          </Pressable>
-        ) : null}
-
         {scan && lastScanTitle ? (
           <LastScanCard
             style={styles.lastScanCard}
@@ -114,7 +74,7 @@ export function HomeScreen({
             timeLabel={`Last scan · ${formatRelative(scan.createdAt)}`}
             title={lastScanTitle}
             verdict={scan.items[0]?.verdict ?? 'all_good'}
-            photoUri={scan.photoLocalUri}
+            photoUri={scan.scanType === 'text' ? null : scan.photoLocalUri}
             dishSafetyPct={scan.dishSafetyPct}
             itemNames={scan.items.map((it) => it.name)}
             onPress={onLastScanTap}
@@ -145,18 +105,5 @@ const styles = StyleSheet.create({
   },
   lastScanCard: {
     flexShrink: 0,
-  },
-  testBtn: {
-    alignSelf: 'center',
-    backgroundColor: '#ff6b00',
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 20,
-    marginBottom: spacing.xs,
-  },
-  testBtnLabel: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: '700',
   },
 });

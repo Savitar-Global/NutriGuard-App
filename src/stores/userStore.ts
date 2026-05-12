@@ -27,9 +27,15 @@ interface UserState {
   saveConditions: (uid: string, patch: ConditionsPatch) => Promise<void>;
   updateProfile: (uid: string, patch: ProfilePatch) => Promise<void>;
   incrementPhotoScans: (uid: string) => Promise<void>;
+  recordScan: (uid: string, scanAt?: Date) => Promise<void>;
   reset: () => void;
   clearError: () => void;
 }
+
+const isSameCalendarDay = (a: Date, b: Date): boolean =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
 
 const wrapError = (raw: unknown): AppError => {
   if (raw instanceof AppError) return raw;
@@ -126,6 +132,52 @@ export const useUserStore = create<UserState>()(
           // Firestore rejected the write (e.g. quota rule). Re-fetch the
           // server doc so local state matches cloud truth and the gate
           // reflects what the backend actually allows.
+          try {
+            const fresh = await firestoreUserRepository.get(uid);
+            if (fresh) set({ profile: fresh });
+          } catch (refetchErr) {
+            console.error('[userStore] failed to refetch user doc', refetchErr);
+          }
+        }
+      },
+
+      recordScan: async (uid, scanAt = new Date()) => {
+        const current = get().profile;
+        if (!current || current.uid !== uid) return;
+
+        const last = current.lastScanDate;
+
+        // Same calendar day → already counted, skip the write entirely.
+        if (last && isSameCalendarDay(last, scanAt)) return;
+
+        let nextStreak: number;
+        if (!last) {
+          nextStreak = 1;
+        } else {
+          const yesterday = new Date(scanAt);
+          yesterday.setDate(yesterday.getDate() - 1);
+          nextStreak = isSameCalendarDay(last, yesterday)
+            ? (current.streakCount ?? 0) + 1
+            : 1;
+        }
+
+        // Optimistic local update so the HomeScreen badge reflects immediately.
+        set({
+          profile: {
+            ...current,
+            streakCount: nextStreak,
+            lastScanDate: scanAt,
+            updatedAt: new Date(),
+          },
+        });
+
+        try {
+          await firestoreUserRepository.update(uid, {
+            streakCount: nextStreak,
+            lastScanDate: scanAt,
+          });
+        } catch (err) {
+          console.error('[userStore] failed to persist streak', err);
           try {
             const fresh = await firestoreUserRepository.get(uid);
             if (fresh) set({ profile: fresh });

@@ -1,12 +1,18 @@
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as ImagePicker from 'expo-image-picker';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Alert, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CONDITIONS, LEGAL_URLS } from '@/config/constants';
 import { deleteAvatarLocally, saveAvatarLocally } from '@/data/services/avatarStorage';
+import {
+  cancelInactivityReminder,
+  getNotificationsPermission,
+  requestNotificationsPermission,
+  scheduleInactivityReminder,
+} from '@/data/services/inactivityNotifications';
 import type { ConditionId } from '@/domain/entities/Condition';
 import { ConditionChip } from '@/presentation/components/ConditionChip';
 import { DangerButton } from '@/presentation/components/DangerButton';
@@ -23,6 +29,7 @@ import {
 import { PlanCard } from '@/presentation/components/profile/PlanCard';
 import { ProfileHeaderRow } from '@/presentation/components/profile/ProfileHeaderRow';
 import { SettingsList, SettingsRow } from '@/presentation/components/profile/SettingsRow';
+import { SwitchRow } from '@/presentation/components/profile/SwitchRow';
 import type { ProfileStackParamList } from '@/presentation/navigation/ProfileStack';
 import type { RootStackParamList } from '@/presentation/navigation/RootNavigator';
 import { colors, spacing, typography } from '@/presentation/theme';
@@ -61,8 +68,34 @@ export function ProfileScreen() {
   const heightUnit = useLocalProfileStore((s) => s.heightUnit);
   const setWeightUnit = useLocalProfileStore((s) => s.setWeightUnit);
   const setHeightUnit = useLocalProfileStore((s) => s.setHeightUnit);
+  const notificationsEnabled = useLocalProfileStore((s) => s.notificationsEnabled);
+  const setNotificationsEnabled = useLocalProfileStore(
+    (s) => s.setNotificationsEnabled,
+  );
 
   const [editField, setEditField] = useState<EditField | null>(null);
+
+  // Reconcile the local "Daily reminder" toggle against the iOS-level
+  // permission whenever the user lands on this screen. The two can drift
+  // — user skipped the onboarding primer, or flipped Nutricare off in
+  // iOS Settings — and we never want the switch to claim ON while the
+  // OS would block every notification.
+  useFocusEffect(
+    useCallback(() => {
+      let cancelled = false;
+      void (async () => {
+        const status = await getNotificationsPermission();
+        if (cancelled) return;
+        if (status !== 'granted' && notificationsEnabled) {
+          setNotificationsEnabled(false);
+          await cancelInactivityReminder();
+        }
+      })();
+      return () => {
+        cancelled = true;
+      };
+    }, [notificationsEnabled, setNotificationsEnabled]),
+  );
 
   const ageYears = useMemo(
     () =>
@@ -286,6 +319,56 @@ export function ProfileScreen() {
     });
   };
 
+  /**
+   * Toggle the local "Daily reminder" preference and reconcile against the
+   * iOS-level permission state:
+   *
+   * - OFF → cancel any queued reminder, persist the preference.
+   * - ON  → if OS permission is granted, schedule a fresh reminder.
+   *         If undetermined (first time), trigger the system prompt; on
+   *         grant we schedule, on deny we revert the toggle.
+   *         If already-denied at OS level, we cannot re-prompt
+   *         (Apple-blocked) — so we show an alert pointing the user to
+   *         iOS Settings and leave the toggle OFF.
+   */
+  const onToggleNotifications = async (next: boolean) => {
+    if (!next) {
+      setNotificationsEnabled(false);
+      await cancelInactivityReminder();
+      return;
+    }
+
+    const current = await getNotificationsPermission();
+    if (current === 'granted') {
+      setNotificationsEnabled(true);
+      await scheduleInactivityReminder();
+      return;
+    }
+
+    if (current === 'undetermined') {
+      const result = await requestNotificationsPermission();
+      if (result === 'granted') {
+        setNotificationsEnabled(true);
+        await scheduleInactivityReminder();
+      } else {
+        setNotificationsEnabled(false);
+      }
+      return;
+    }
+
+    // OS-denied — iOS won't show the system prompt again. The only path
+    // back on is via Settings.
+    Alert.alert(
+      'Notifications are off',
+      'Reminders are turned off for Nutricare Ai in iOS Settings. Enable them there to receive scan reminders.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Open Settings', onPress: () => Linking.openSettings() },
+      ],
+    );
+    setNotificationsEnabled(false);
+  };
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ScrollView
@@ -365,7 +448,18 @@ export function ProfileScreen() {
           />
         </View>
 
-        <Divider label="Settings" />
+        <Divider label="Reminders" />
+        <SettingsList>
+          <SwitchRow
+            label="Daily reminder"
+            description="A nudge if you haven't scanned for 12 hours."
+            value={notificationsEnabled}
+            onValueChange={(next) => void onToggleNotifications(next)}
+            isLast
+          />
+        </SettingsList>
+
+        <Divider label="Information" />
         <SettingsList>
           <SettingsRow
             label="Privacy policy"

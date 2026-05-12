@@ -87,7 +87,7 @@ export function SignUpScreen({ onNavigateToLogin }: SignUpScreenProps) {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.logoWrap}>
-            <Logo />
+            <Logo variant="stacked" />
           </View>
 
           <View style={styles.headerBlock}>
