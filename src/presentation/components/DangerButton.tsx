@@ -15,12 +15,15 @@ import {
   typography,
 } from '@/presentation/theme';
 
+type DangerButtonVariant = 'solid' | 'outline';
+
 interface DangerButtonProps {
   label: string;
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
   leftIcon?: React.ReactNode;
+  variant?: DangerButtonVariant;
 }
 
 export function DangerButton({
@@ -29,8 +32,10 @@ export function DangerButton({
   loading = false,
   disabled = false,
   leftIcon,
+  variant = 'solid',
 }: DangerButtonProps) {
   const isDisabled = disabled || loading;
+  const isOutline = variant === 'outline';
 
   return (
     <Pressable
@@ -38,6 +43,7 @@ export function DangerButton({
       disabled={isDisabled}
       style={({ pressed }) => [
         styles.btn,
+        isOutline ? styles.btnOutline : styles.btnSolid,
         isDisabled && styles.disabled,
         pressed && !isDisabled && styles.pressed,
       ]}
@@ -45,11 +51,18 @@ export function DangerButton({
       accessibilityState={{ disabled: isDisabled, busy: loading }}
     >
       {loading ? (
-        <ActivityIndicator color="#ffffff" size="small" />
+        <ActivityIndicator
+          color={isOutline ? colors.danger : colors.primaryContrast}
+          size="small"
+        />
       ) : (
         <View style={styles.row}>
           {leftIcon}
-          <Text style={styles.label}>{label}</Text>
+          <Text
+            style={[styles.label, isOutline ? styles.labelOutline : styles.labelSolid]}
+          >
+            {label}
+          </Text>
         </View>
       )}
     </Pressable>
@@ -58,7 +71,6 @@ export function DangerButton({
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: colors.danger,
     borderRadius: radius.pill,
     paddingVertical: spacing.buttonPaddingY,
     paddingHorizontal: spacing.buttonPaddingX,
@@ -66,11 +78,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     minHeight: sizes.buttonHeight,
   },
+  btnSolid: { backgroundColor: colors.danger },
+  btnOutline: {
+    backgroundColor: 'transparent',
+    borderWidth: sizes.borderInput,
+    borderColor: colors.danger,
+  },
   pressed: { opacity: opacity.pressedSoft },
   disabled: { opacity: opacity.disabled },
   row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  label: {
-    ...typography.button,
-    color: '#ffffff',
-  },
+  label: { ...typography.button },
+  labelSolid: { color: colors.primaryContrast },
+  labelOutline: { color: colors.danger },
 });

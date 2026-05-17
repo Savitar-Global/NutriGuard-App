@@ -37,6 +37,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { useEntitlementStore } from '@/stores/entitlementStore';
 import { useLocalAvatarUri, useLocalProfileStore } from '@/stores/localProfileStore';
 import { useUserStore } from '@/stores/userStore';
+import { AppError } from '@/types/global';
 import { AGE_LIMITS, ageToBirthday, calculateAge } from '@/utils/age';
 import type { HeightUnit, WeightUnit } from '@/utils/units';
 
@@ -58,6 +59,7 @@ export function ProfileScreen() {
   const saveConditions = useUserStore((s) => s.saveConditions);
   const updateProfile = useUserStore((s) => s.updateProfile);
   const signOut = useAuthStore((s) => s.signOut);
+  const deleteAccount = useAuthStore((s) => s.deleteAccount);
 
   const entitlement = useEntitlementStore((s) => s.entitlement);
 
@@ -313,6 +315,55 @@ export function ProfileScreen() {
     );
   };
 
+  // Email accounts need a password to re-verify before deletion (Firebase
+  // requires a recent login). Apple accounts re-verify via the native sheet,
+  // so this is never called for them.
+  const promptPassword = (): Promise<string | null> =>
+    new Promise((resolve) => {
+      Alert.prompt(
+        'Confirm your password',
+        'Re-enter your password to permanently delete your account.',
+        [
+          { text: 'Cancel', style: 'cancel', onPress: () => resolve(null) },
+          {
+            text: 'Delete account',
+            style: 'destructive',
+            onPress: (value?: string) =>
+              resolve(value && value.length > 0 ? value : null),
+          },
+        ],
+        'secure-text',
+      );
+    });
+
+  const confirmDeleteAccount = () => {
+    Alert.alert(
+      'Delete account?',
+      'This permanently erases your profile, scans, and data — on this device and in the cloud. This cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete account',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteAccount(promptPassword);
+            } catch (err) {
+              // User backed out of the re-verify step — not an error.
+              if (err instanceof AppError && err.code === 'AUTH_CANCELLED') {
+                return;
+              }
+              Alert.alert(
+                "Couldn't delete account",
+                'Something went wrong. Please check your connection and try again.',
+              );
+            }
+          },
+        },
+      ],
+    );
+  };
+
   const openUrl = (url: string) => () => {
     Linking.openURL(url).catch(() => {
       /* swallow — Toast surfacing arrives with the error system. */
@@ -474,7 +525,16 @@ export function ProfileScreen() {
       </ScrollView>
 
       <View style={styles.cta}>
-        <DangerButton label="Sign out" onPress={confirmSignOut} />
+        <DangerButton
+          label="Sign out"
+          variant="outline"
+          onPress={confirmSignOut}
+        />
+        <DangerButton
+          label="Delete account"
+          variant="solid"
+          onPress={confirmDeleteAccount}
+        />
       </View>
 
       {editField && (
@@ -532,6 +592,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg + 2,
     paddingTop: spacing.md,
     paddingBottom: spacing.md,
+    gap: spacing.sm,
     backgroundColor: colors.surface,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: colors.borderLight,

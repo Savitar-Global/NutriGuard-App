@@ -1,6 +1,9 @@
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
+  EmailAuthProvider,
   onAuthStateChanged,
+  reauthenticateWithCredential,
   sendPasswordResetEmail,
   signInWithCredential,
   signInWithEmailAndPassword,
@@ -9,9 +12,12 @@ import {
 } from 'firebase/auth';
 import { create } from 'zustand';
 
+import { firestoreScanRepository } from '@/data/repositories/FirestoreScanRepository';
 import { firestoreUserRepository } from '@/data/repositories/FirestoreUserRepository';
 import { firebaseAuth } from '@/data/services/firebase';
 import { requestAppleCredential } from '@/data/services/appleAuth';
+import { deleteAvatarLocally } from '@/data/services/avatarStorage';
+import { useLocalProfileStore } from '@/stores/localProfileStore';
 import { AppError, type AppErrorCode } from '@/types/global';
 
 interface AuthState {
@@ -26,6 +32,9 @@ interface AuthState {
   signInWithApple: () => Promise<void>;
   sendPasswordReset: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
+  deleteAccount: (
+    getPassword?: () => Promise<string | null>,
+  ) => Promise<void>;
   clearError: () => void;
 }
 
@@ -38,6 +47,7 @@ const FIREBASE_ERROR_MAP: Record<string, AppErrorCode> = {
   'auth/weak-password': 'AUTH_WEAK_PASSWORD',
   'auth/network-request-failed': 'AUTH_NETWORK',
   'auth/too-many-requests': 'AUTH_RATE_LIMITED',
+  'auth/requires-recent-login': 'AUTH_REQUIRES_RECENT_LOGIN',
   ERR_REQUEST_CANCELED: 'AUTH_CANCELLED',
 };
 
@@ -46,6 +56,40 @@ const mapFirebaseError = (raw: unknown): AppError => {
   const code = (raw as { code?: string } | null)?.code ?? '';
   const message = (raw as { message?: string } | null)?.message;
   return new AppError(FIREBASE_ERROR_MAP[code] ?? 'UNKNOWN', message ?? code);
+};
+
+/**
+ * Re-verify the signed-in user in place — no sign-out round trip. Firebase
+ * demands a recent login before destructive account ops; this satisfies
+ * that requirement transparently:
+ *
+ * - Apple users → native Apple sheet (Face ID / one tap).
+ * - Email users → caller-supplied `getPassword` prompt (the only provider
+ *   where a credential can't be re-derived silently).
+ */
+const reauthenticateCurrentUser = async (
+  user: FirebaseUser,
+  getPassword?: () => Promise<string | null>,
+): Promise<void> => {
+  const providerId = user.providerData[0]?.providerId;
+
+  if (providerId === 'apple.com') {
+    const apple = await requestAppleCredential();
+    await reauthenticateWithCredential(user, apple.credential);
+    return;
+  }
+
+  if (!getPassword || !user.email) {
+    throw new AppError('AUTH_REQUIRES_RECENT_LOGIN');
+  }
+  const password = await getPassword();
+  if (!password) {
+    throw new AppError('AUTH_CANCELLED');
+  }
+  await reauthenticateWithCredential(
+    user,
+    EmailAuthProvider.credential(user.email, password),
+  );
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -139,6 +183,45 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signOut: async () => {
     await firebaseSignOut(firebaseAuth);
+  },
+
+  deleteAccount: async (getPassword) => {
+    const current = firebaseAuth.currentUser;
+    if (!current) return;
+    if (get().isSubmitting) return;
+    set({ isSubmitting: true, error: null });
+
+    const { uid } = current;
+    try {
+      // Cloud data must be erased while the user is still authenticated —
+      // Firestore security rules reject writes once the auth user is gone.
+      // Both deletes are idempotent, so a later retry is safe.
+      await firestoreScanRepository.clear(uid);
+      await firestoreUserRepository.delete(uid);
+
+      // Device-local artefacts that AuthGate's store resets don't cover.
+      await deleteAvatarLocally(uid);
+      useLocalProfileStore.getState().clearAvatarUri(uid);
+
+      // Removing the auth user flips onAuthStateChanged → null, which makes
+      // AuthGate reset the user/scan/entitlement stores (same path as signOut).
+      try {
+        await deleteUser(current);
+      } catch (err) {
+        if ((err as { code?: string } | null)?.code !== 'auth/requires-recent-login') {
+          throw err;
+        }
+        // Stale token — re-verify in place (no sign-out) and finish deleting.
+        await reauthenticateCurrentUser(current, getPassword);
+        await deleteUser(current);
+      }
+    } catch (err) {
+      const mapped = mapFirebaseError(err);
+      set({ error: mapped });
+      throw mapped;
+    } finally {
+      set({ isSubmitting: false });
+    }
   },
 
   clearError: () => set({ error: null }),
