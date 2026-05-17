@@ -31,5 +31,5 @@ export const APPLE_SUBSCRIPTIONS_URL = 'https://apps.apple.com/account/subscript
 
 export const LEGAL_URLS = {
   privacyPolicy: 'https://dklochana.github.io/NutriCare-AI/privacy-policy/',
-  termsAndConditions: 'https://dklochana.github.io/NutriCare-AI/terms-of-service/',
+  termsAndConditions: 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/',
 } as const;
